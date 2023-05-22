@@ -6,13 +6,10 @@ import { SafeAreaView } from "react-native";
 import { Bootstrap } from "./src";
 
 NativeWindStyleSheet.setOutput({ default: "native" });
-const statusBarHeight = Constants.statusBarHeight;
 
-export default () => {
-  return (
-    <SafeAreaView style={{ flex: 1, marginTop: statusBarHeight }}>
-      <StatusBar style="dark" />
-      <Bootstrap />
-    </SafeAreaView>
-  );
-};
+export default () => (
+  <SafeAreaView style={{ flex: 1, marginTop: Constants.statusBarHeight }}>
+    <StatusBar style="dark" />
+    <Bootstrap />
+  </SafeAreaView>
+);
