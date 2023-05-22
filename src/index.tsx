@@ -1,17 +1,10 @@
 import { NavigationContainer } from "@react-navigation/native";
-import {
-  createNativeStackNavigator,
-  type NativeStackScreenProps,
-} from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { View, Text, Button, TouchableOpacity } from "react-native";
+import { SCREEN_NAMES, type RootStackScreenProps } from "./shared";
 
-export type RootStackParamList = {
-  Home: undefined;
-  Page2: undefined;
-};
-
-const Page1 = ({ navigation }: NativeStackScreenProps<RootStackParamList>) => {
+const Page1 = ({ navigation }: RootStackScreenProps<"Home">) => {
   return (
     <View className="bg-purple-100 flex-1 gap-4">
       <Text className="text-xl">
@@ -19,9 +12,12 @@ const Page1 = ({ navigation }: NativeStackScreenProps<RootStackParamList>) => {
         <Text className="text-red-600 font-bold">start working</Text> on your
         app!
       </Text>
+      <Text className="text-xl">
+        Changes you make will automatically reload.
+      </Text>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate("Page2")}
+        onPress={() => navigation.navigate("Login")}
         className="bg-red-500 py-4 px-8 rounded-xl self-center w-4/5"
       >
         <Text className="text-white text-center">Click me</Text>
@@ -30,7 +26,7 @@ const Page1 = ({ navigation }: NativeStackScreenProps<RootStackParamList>) => {
   );
 };
 
-const Page2 = ({ navigation }: NativeStackScreenProps<RootStackParamList>) => (
+const Page2 = ({ navigation }: RootStackScreenProps<"Login">) => (
   <View className="bg-purple-100 flex-1 gap-4">
     <Text className="text-xl">
       hello world
@@ -42,13 +38,21 @@ const Page2 = ({ navigation }: NativeStackScreenProps<RootStackParamList>) => (
 
 const Stack = createNativeStackNavigator();
 
-const hideHeader = { headerShown: false };
+const defaultOption = { headerShown: false };
 
 export const EntryPoint = () => (
   <NavigationContainer>
-    <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={Page1} options={hideHeader} />
-      <Stack.Screen name="Page2" component={Page2} options={hideHeader} />
+    <Stack.Navigator initialRouteName={SCREEN_NAMES.Home}>
+      <Stack.Screen
+        name={SCREEN_NAMES.Home}
+        component={Page1}
+        options={defaultOption}
+      />
+      <Stack.Screen
+        name={SCREEN_NAMES.Login}
+        component={Page2}
+        options={defaultOption}
+      />
     </Stack.Navigator>
   </NavigationContainer>
 );
