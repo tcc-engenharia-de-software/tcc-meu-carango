@@ -1,1 +1,1 @@
-export {};
+export { LoginController } from "./login";

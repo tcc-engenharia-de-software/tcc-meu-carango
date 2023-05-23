@@ -9,7 +9,7 @@ NativeWindStyleSheet.setOutput({ default: "native" });
 
 export default () => (
   <SafeAreaView style={{ flex: 1, marginTop: Constants.statusBarHeight }}>
-    <StatusBar style="dark" />
+    <StatusBar style="auto" />
     <EntryPoint />
   </SafeAreaView>
 );

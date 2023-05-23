@@ -1,7 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Text, TouchableOpacity, View } from "react-native";
 
-import { View, Text, Button, TouchableOpacity } from "react-native";
+import { LoginController } from "./modules";
 import { SCREEN_NAMES, type RootStackScreenProps } from "./shared";
 
 const Page1 = ({ navigation }: RootStackScreenProps<"Home">) => {
@@ -26,32 +27,22 @@ const Page1 = ({ navigation }: RootStackScreenProps<"Home">) => {
   );
 };
 
-const Page2 = ({ navigation }: RootStackScreenProps<"Login">) => (
-  <View className="bg-purple-100 flex-1 gap-4">
-    <Text className="text-xl">
-      hello world
-      <Text className="text-red-600 font-bold">start working</Text> on your app!
-    </Text>
-    <Button title="Go to Page 1" onPress={() => navigation.navigate("Home")} />
-  </View>
-);
-
 const Stack = createNativeStackNavigator();
 
-const defaultOption = { headerShown: false };
-
+const hideHeader = { headerShown: false };
 export const EntryPoint = () => (
   <NavigationContainer>
-    <Stack.Navigator initialRouteName={SCREEN_NAMES.Home}>
+    <Stack.Navigator initialRouteName={SCREEN_NAMES.Login}>
+      <Stack.Screen
+        name={SCREEN_NAMES.Login}
+        component={LoginController}
+        options={hideHeader}
+      />
+
       <Stack.Screen
         name={SCREEN_NAMES.Home}
         component={Page1}
-        options={defaultOption}
-      />
-      <Stack.Screen
-        name={SCREEN_NAMES.Login}
-        component={Page2}
-        options={defaultOption}
+        options={hideHeader}
       />
     </Stack.Navigator>
   </NavigationContainer>
