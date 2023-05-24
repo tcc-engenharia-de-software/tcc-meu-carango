@@ -1,4 +1,4 @@
-import { act, defaultRenderHook, defaultRender } from "~/tests";
+import { defaultRenderHook } from "~/tests";
 
 import { useLoginController } from "./index";
 

@@ -1,6 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NativeWindStyleSheet } from "nativewind";
 import { FC } from "react";
 
 import {
@@ -12,10 +11,6 @@ import {
 } from "@testing-library/react-native";
 
 import { SCREEN_NAMES } from "~/shared";
-
-beforeAll(() => {
-  NativeWindStyleSheet.setOutput({ default: "native" });
-});
 
 const TestStack = createNativeStackNavigator();
 
