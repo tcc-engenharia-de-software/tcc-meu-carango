@@ -7,5 +7,5 @@ export const LoginController = ({
 }: RootStackScreenProps<"Home">) => {
   const loginController = useLoginController({ navigation });
 
-  return <LoginView onSubmit={loginController.onSubmit} />;
+  return <LoginView {...loginController} />;
 };

@@ -1,32 +1,87 @@
+import { Controller as FormController } from "react-hook-form";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
-type LoginViewProps = {
-  onSubmit: () => void;
+import { UseLoginController } from "../../hooks/login/types";
+import { styles } from "./styles";
+
+export const LoginView = ({
+  onSubmit,
+  formControl,
+  isButtonSubmitDisabled,
+  isLoading,
+  emailError,
+  passwordError,
+  handleInputChange,
+}: UseLoginController) => {
+  const buttonSubmitStyle = [
+    styles.form.submitButton,
+    isButtonSubmitDisabled
+      ? styles.form.submitButtonDisabled
+      : styles.form.submitButtonEnabled,
+  ].join(" ");
+
+  return (
+    <View className={styles.container}>
+      <Text className={styles.title}>Entrar</Text>
+
+      <View className={styles.form.inputWrapper}>
+        <FormController
+          control={formControl}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              className={
+                styles.form.input +
+                ` ${emailError ? styles.form.inputError : ""}`
+              }
+              placeholder="Email"
+              testID="email-input"
+              onBlur={onBlur}
+              onChangeText={handleInputChange(onChange)}
+              value={value}
+            />
+          )}
+          name="email"
+        />
+        {emailError ? (
+          <Text className={styles.form.inputErrorText}>{emailError}</Text>
+        ) : null}
+      </View>
+
+      <View className={styles.form.inputWrapper}>
+        <FormController
+          control={formControl}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              className={
+                styles.form.input +
+                ` ${passwordError ? styles.form.inputError : ""}`
+              }
+              placeholder="Senha"
+              secureTextEntry={true}
+              testID="password-input"
+              onBlur={onBlur}
+              onChangeText={handleInputChange(onChange)}
+              value={value}
+            />
+          )}
+          name="password"
+        />
+
+        {passwordError ? (
+          <Text className={styles.form.inputErrorText}>{passwordError}</Text>
+        ) : null}
+      </View>
+
+      <TouchableOpacity
+        className={buttonSubmitStyle}
+        onPress={onSubmit}
+        testID="submit-button"
+        disabled={isButtonSubmitDisabled}
+      >
+        <Text className={styles.form.submitButtonText}>
+          {isLoading ? "..." : "Entrar"}
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
 };
-
-export const LoginView = ({ onSubmit }: LoginViewProps) => (
-  <View className="bg-white flex flex-1 px-4 pt-14">
-    <Text className="text-6xl mb-8">Entrar</Text>
-
-    <TextInput
-      className="border-black border-2 text-3xl w-full px-4 py-2 mb-4"
-      placeholder="Email"
-      testID="email-input"
-    />
-
-    <TextInput
-      className="border-black border-2 text-3xl w-full px-4 py-2 mb-4"
-      placeholder="Senha"
-      secureTextEntry={true}
-      testID="password-input"
-    />
-
-    <TouchableOpacity
-      className="bg-black py-2"
-      onPress={onSubmit}
-      testID="submit-button"
-    >
-      <Text className="text-3xl text-white text-center">Entrar</Text>
-    </TouchableOpacity>
-  </View>
-);

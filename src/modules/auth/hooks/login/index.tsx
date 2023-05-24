@@ -1,13 +1,13 @@
-import { RootStackScreenProps } from "../../../../shared";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
-type UseLoginControllerProps = {
-  navigation: RootStackScreenProps<"Home">["navigation"];
-};
+import { loginFormSchema } from "./loginFormSchema";
+import type { LoginFormData, UseLoginControllerProps } from "./types";
 
 /*
   ! todo:
-  - [ ] install react-hook-form
-  - [ ] do logic to handle with form using react-hook-form
+  - [x] install react-hook-form
+  - [x] do logic to handle with form using react-hook-form
   - [ ] install supabase client
   - [ ] implement authentication with supabase
   - [ ] install lib to handle with async storage
@@ -17,8 +17,44 @@ type UseLoginControllerProps = {
   - [ ] create tests
   - [ ] move types to separate file
 */
+const initialFormValues: LoginFormData = { email: "", password: "" };
 export const useLoginController = ({ navigation }: UseLoginControllerProps) => {
+  const {
+    control: formControl,
+    formState,
+    handleSubmit,
+    reset,
+  } = useForm<LoginFormData>({
+    defaultValues: initialFormValues,
+    mode: "onChange",
+    resolver: zodResolver(loginFormSchema),
+  });
+
+  const emailError = formState.errors.email?.message;
+  const passwordError = formState.errors.password?.message;
+  const isButtonSubmitDisabled = !formState.isValid || formState.isSubmitting;
+  const isLoading = formState.isSubmitting;
+
+  const onSubmit = handleSubmit((data: LoginFormData) => {
+    console.log(data);
+
+    reset(initialFormValues);
+    navigation.push("Home");
+  });
+
+  const handleInputChange = (cb: (text: string) => void) => {
+    return (currentText: string) => {
+      cb(currentText.trim());
+    };
+  };
+
   return {
-    onSubmit: () => navigation.push("Home"),
+    formControl,
+    isLoading,
+    isButtonSubmitDisabled,
+    emailError,
+    passwordError,
+    onSubmit,
+    handleInputChange,
   };
 };
