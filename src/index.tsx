@@ -1,11 +1,12 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { FC } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 import { LoginController } from "./modules";
-import { SCREEN_NAMES, type RootStackScreenProps } from "./shared";
+import { RootStackParamList, SCREEN_NAMES } from "./shared";
 
-const Page1 = ({ navigation }: RootStackScreenProps<"Home">) => {
+const Page1: FC<RootStackParamList["Home"]> = ({ navigation }) => {
   return (
     <View className="bg-purple-100 flex-1 gap-4">
       <Text className="text-xl">
