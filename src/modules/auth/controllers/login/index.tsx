@@ -1,11 +1,12 @@
-import { RootStackScreenProps } from "../../../../shared";
+import { FC } from "react";
+
+import { RootStackParamList } from "~/shared";
+
 import { useLoginController } from "../../hooks";
 import { LoginView } from "../../views";
 
-export const LoginController = ({
-  navigation,
-}: RootStackScreenProps<"Home">) => {
-  const loginController = useLoginController({ navigation });
+type LoginControllerProps = FC<RootStackParamList["Home"]>;
 
-  return <LoginView {...loginController} />;
-};
+export const LoginController: LoginControllerProps = ({ navigation }) => (
+  <LoginView {...useLoginController({ navigation })} />
+);

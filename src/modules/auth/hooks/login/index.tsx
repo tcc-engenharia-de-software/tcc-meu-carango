@@ -1,8 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
+import { RootStackParamList, SCREEN_NAMES } from "~/shared";
+
 import { loginFormSchema } from "./loginFormSchema";
-import type { LoginFormData, UseLoginControllerProps } from "./types";
+import type { LoginFormData } from "./types";
 
 /*
   ! todo:
@@ -13,12 +15,14 @@ import type { LoginFormData, UseLoginControllerProps } from "./types";
   - [ ] install lib to handle with async storage
   - [ ] save token in async storage
   - [ ] create a hook to handle with authentication
-  - [ ] install libs to handle with tests
+  - [x] install libs to handle with tests
   - [ ] create tests
-  - [ ] move types to separate file
+  - [x] move types to separate file
 */
 const initialFormValues: LoginFormData = { email: "", password: "" };
-export const useLoginController = ({ navigation }: UseLoginControllerProps) => {
+export const useLoginController = ({
+  navigation,
+}: RootStackParamList["Home"]) => {
   const {
     control: formControl,
     formState,
@@ -36,10 +40,12 @@ export const useLoginController = ({ navigation }: UseLoginControllerProps) => {
   const isLoading = formState.isSubmitting;
 
   const onSubmit = handleSubmit((data: LoginFormData) => {
+    if (isLoading || isButtonSubmitDisabled) return;
+
     console.log(data);
 
     reset(initialFormValues);
-    navigation.push("Home");
+    navigation.navigate(SCREEN_NAMES.Home as never);
   });
 
   const handleInputChange = (cb: (text: string) => void) => {

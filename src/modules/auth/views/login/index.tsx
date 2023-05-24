@@ -1,10 +1,11 @@
+import { FC } from "react";
 import { Controller as FormController } from "react-hook-form";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import { UseLoginController } from "../../hooks/login/types";
 import { styles } from "./styles";
 
-export const LoginView = ({
+export const LoginView: FC<UseLoginController> = ({
   onSubmit,
   formControl,
   isButtonSubmitDisabled,
@@ -12,7 +13,7 @@ export const LoginView = ({
   emailError,
   passwordError,
   handleInputChange,
-}: UseLoginController) => {
+}) => {
   const buttonSubmitStyle = [
     styles.form.submitButton,
     isButtonSubmitDisabled
