@@ -1,11 +1,8 @@
-import { useMemo } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { RootStackScreenProps } from "../../../../shared";
-
-type UseLoginControllerProps = {
-  navigation: RootStackScreenProps<"Home">["navigation"];
-};
+import { loginFormSchema } from "./loginFormSchema";
+import type { LoginFormData, UseLoginControllerProps } from "./types";
 
 /*
   ! todo:
@@ -20,13 +17,23 @@ type UseLoginControllerProps = {
   - [ ] create tests
   - [ ] move types to separate file
 */
-const initialFormValues = { email: "", password: "" };
+const initialFormValues: LoginFormData = { email: "", password: "" };
 export const useLoginController = ({ navigation }: UseLoginControllerProps) => {
-  const { control, handleSubmit, formState, reset } = useForm<LoginFormData>({
+  const {
+    control: formControl,
+    formState,
+    handleSubmit,
+    reset,
+  } = useForm<LoginFormData>({
     defaultValues: initialFormValues,
     mode: "onChange",
-    // resolver: undefined,
+    resolver: zodResolver(loginFormSchema),
   });
+
+  const emailError = formState.errors.email?.message;
+  const passwordError = formState.errors.password?.message;
+  const isButtonSubmitDisabled = !formState.isValid || formState.isSubmitting;
+  const isLoading = formState.isSubmitting;
 
   const onSubmit = handleSubmit((data: LoginFormData) => {
     console.log(data);
@@ -41,52 +48,13 @@ export const useLoginController = ({ navigation }: UseLoginControllerProps) => {
     };
   };
 
-  const isButtonSubmitDisabled =
-    !formState.isValid || formState.isSubmitting || formState.isDirty;
-
-  const emailError = useMemo(() => {
-    if (formState.errors.email?.type === "pattern") {
-      return "Digite um email válido";
-    }
-
-    if (formState.errors.email?.type === "minLength") {
-      return "Email deve ter no mínimo 8 caracteres";
-    }
-
-    if (formState.errors.email?.type === "maxLength") {
-      return "Email deve ter no máximo 120 caracteres";
-    }
-
-    return null;
-  }, [formState.errors.email]);
-
-  const passwordError = useMemo(() => {
-    if (formState.errors.password?.type === "minLength") {
-      return "Senha deve ter no mínimo 8 caracteres";
-    }
-
-    if (formState.errors.password?.type === "maxLength") {
-      return "Senha deve ter no máximo 120 caracteres";
-    }
-
-    return null;
-  }, [formState.errors.password]);
-
   return {
-    formControl: control,
-    isLoading: formState.isSubmitting,
+    formControl,
+    isLoading,
     isButtonSubmitDisabled,
-    onSubmit,
-    handleInputChange,
     emailError,
     passwordError,
+    onSubmit,
+    handleInputChange,
   };
 };
-
-// it should be in a separate to be used as model
-type LoginFormData = {
-  email: string;
-  password: string;
-};
-
-export type UseLoginController = ReturnType<typeof useLoginController>;

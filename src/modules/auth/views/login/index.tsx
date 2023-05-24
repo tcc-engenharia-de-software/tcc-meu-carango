@@ -1,10 +1,8 @@
 import { Controller as FormController } from "react-hook-form";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
-import { UseLoginController } from "../../hooks/login";
+import { UseLoginController } from "../../hooks/login/types";
 import { styles } from "./styles";
-
-const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
 
 export const LoginView = ({
   onSubmit,
@@ -29,12 +27,6 @@ export const LoginView = ({
       <View className={styles.form.inputWrapper}>
         <FormController
           control={formControl}
-          rules={{
-            required: true,
-            maxLength: 120,
-            minLength: 8,
-            pattern: EMAIL_REGEX,
-          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               className={
@@ -58,7 +50,6 @@ export const LoginView = ({
       <View className={styles.form.inputWrapper}>
         <FormController
           control={formControl}
-          rules={{ required: true, maxLength: 120, minLength: 8 }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               className={
