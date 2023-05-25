@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { RootStackParamList, SCREEN_NAMES } from "~/shared";
+import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 
 import { loginFormSchema } from "./loginFormSchema";
 import type { LoginFormData } from "./types";

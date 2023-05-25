@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { RootStackParamList } from "~/shared";
+import { RootStackParamList } from "src/shared";
 
 import { useLoginController } from "../../hooks";
 import { LoginView } from "../../views";
