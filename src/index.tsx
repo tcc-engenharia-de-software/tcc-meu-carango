@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { FC } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
-import { LoginController } from "./modules";
+import { LoginController } from "src/modules";
 import { RootStackParamList, SCREEN_NAMES } from "./shared";
 
 const Page1: FC<RootStackParamList["Home"]> = ({ navigation }) => {

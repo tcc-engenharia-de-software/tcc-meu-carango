@@ -10,7 +10,7 @@ import {
   act,
 } from "@testing-library/react-native";
 
-import { SCREEN_NAMES } from "~/shared";
+import { SCREEN_NAMES } from "src/shared";
 
 const TestStack = createNativeStackNavigator();
 
