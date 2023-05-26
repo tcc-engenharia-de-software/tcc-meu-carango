@@ -63,3 +63,5 @@ describe("modules > auth > hooks > login", () => {
     });
   });
 });
+
+export {};
