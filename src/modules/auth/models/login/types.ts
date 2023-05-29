@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 import { loginFormSchema } from "./loginFormSchema";
-import { useLoginController } from ".";
+import { useLoginModel } from ".";
 
-export type UseLoginController = ReturnType<typeof useLoginController>;
+export type useLoginModel = ReturnType<typeof useLoginModel>;
 
 export type LoginFormData = z.infer<typeof loginFormSchema>;

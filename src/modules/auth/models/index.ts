@@ -1,1 +1,1 @@
-export {};
+export { useLoginModel } from "./login";

@@ -20,9 +20,8 @@ import type { LoginFormData } from "./types";
   - [x] move types to separate file
 */
 const initialFormValues: LoginFormData = { email: "", password: "" };
-export const useLoginController = ({
-  navigation,
-}: RootStackParamList["Home"]) => {
+// ! todo: this layer should be called as model
+export const useLoginModel = ({ navigation }: RootStackParamList["Home"]) => {
   const {
     control: formControl,
     formState,
