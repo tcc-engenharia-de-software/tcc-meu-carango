@@ -80,7 +80,7 @@ export const LoginView: FC<useLoginModel> = ({
         disabled={isButtonSubmitDisabled}
       >
         <Text className={styles.form.submitButtonText}>
-          {isLoading ? "..." : "Entrar"}
+          {isLoading ? "Carregando..." : "Entrar"}
         </Text>
       </TouchableOpacity>
     </View>

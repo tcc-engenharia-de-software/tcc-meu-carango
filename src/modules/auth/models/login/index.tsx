@@ -1,8 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { Alert } from "react-native";
 
 import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 
+import { supabase } from "../../services";
 import { loginFormSchema } from "./loginFormSchema";
 import type { LoginFormData } from "./types";
 
@@ -10,17 +12,19 @@ import type { LoginFormData } from "./types";
   ! todo:
   - [x] install react-hook-form
   - [x] do logic to handle with form using react-hook-form
-  - [ ] install supabase client
-  - [ ] implement authentication with supabase
-  - [ ] install lib to handle with async storage
-  - [ ] save token in async storage
-  - [ ] create a hook to handle with authentication
+  - [x] install supabase client
+  - [x] implement authentication with supabase
+  - [x] install lib to handle with async storage
+  - [x] save token in async storage
+  - [x] create a hook to handle with authentication
   - [x] install libs to handle with tests
   - [ ] create tests
   - [x] move types to separate file
 */
-const initialFormValues: LoginFormData = { email: "", password: "" };
-// ! todo: this layer should be called as model
+const initialFormValues: LoginFormData = {
+  email: "",
+  password: "",
+};
 export const useLoginModel = ({ navigation }: RootStackParamList["Home"]) => {
   const {
     control: formControl,
@@ -38,10 +42,17 @@ export const useLoginModel = ({ navigation }: RootStackParamList["Home"]) => {
   const isButtonSubmitDisabled = !formState.isValid || formState.isSubmitting;
   const isLoading = formState.isSubmitting;
 
-  const onSubmit = handleSubmit((data: LoginFormData) => {
+  const onSubmit = handleSubmit(async (data: LoginFormData) => {
     if (isLoading || isButtonSubmitDisabled) return;
 
-    console.log(data);
+    const authentication = await supabase.auth.signInWithPassword(data);
+
+    if (authentication.error) {
+      return Alert.alert(
+        "Credenciais incorretas",
+        "Verifique seus dados e tente novamente!"
+      );
+    }
 
     reset(initialFormValues);
     navigation.navigate(SCREEN_NAMES.Home as never);

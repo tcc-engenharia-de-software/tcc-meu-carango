@@ -9,6 +9,6 @@ export const styles = {
     submitButton: "py-2",
     submitButtonEnabled: "bg-black",
     submitButtonDisabled: "bg-gray-500",
-    submitButtonText: "text-3xl text-white text-center font-bold",
+    submitButtonText: "text-xl text-white text-center font-bold",
   },
 };

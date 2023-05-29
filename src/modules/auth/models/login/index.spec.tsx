@@ -2,7 +2,7 @@ import { defaultRenderHook } from "src/tests";
 
 import { useLoginModel } from "./index";
 
-describe("modules > auth > hooks > login", () => {
+describe("modules > auth > models > login", () => {
   it("should render", () => {
     const { result } = defaultRenderHook(() =>
       useLoginModel({
@@ -63,5 +63,3 @@ describe("modules > auth > hooks > login", () => {
     });
   });
 });
-
-export {};
