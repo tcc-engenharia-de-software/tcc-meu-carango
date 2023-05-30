@@ -1,6 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { FC } from "react";
 
 import { LoginController, SignUpController, HomeController } from "src/modules";
 
