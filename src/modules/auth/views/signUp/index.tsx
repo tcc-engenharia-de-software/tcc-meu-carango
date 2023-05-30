@@ -112,15 +112,14 @@ export const SignUpView: FC<useSignUpModel> = ({
         </Text>
       </TouchableOpacity>
 
-      <View>
-        <Text className={styles.login.container}>
-          Já tem cadastro?{" "}
-          <TouchableOpacity>
-            <Text onPress={() => navigateToLogin()} className="text-blue-800">
-              Clique aqui
-            </Text>
-          </TouchableOpacity>
-        </Text>
+      <View className={styles.login.container}>
+        <Text>Já tem cadastro? </Text>
+        <TouchableOpacity
+          onPress={() => navigateToLogin()}
+          className={styles.login.containerClickHere}
+        >
+          <Text className={styles.login.clickHere}>Clique aqui</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

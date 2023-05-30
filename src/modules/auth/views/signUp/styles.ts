@@ -12,7 +12,8 @@ export const styles = {
     submitButtonText: "text-xl text-white text-center font-bold",
   },
   login: {
-    container: "mt-12",
-    clickHere: "",
+    container: "flex flex-row mt-12",
+    containerClickHere: "ml-1",
+    clickHere: "text-blue-800",
   },
 };
