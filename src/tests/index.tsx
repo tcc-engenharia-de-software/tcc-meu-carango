@@ -1,7 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { FC } from "react";
-
 import {
   act,
   fireEvent,
@@ -9,7 +7,7 @@ import {
   renderHook,
   screen,
 } from "@testing-library/react-native";
-
+import { FC } from "react";
 import { SCREEN_NAMES } from "src/shared";
 
 const TestStack = createNativeStackNavigator();

@@ -19,9 +19,7 @@ describe("modules > auth > models > login", () => {
     it("should be true when form is invalid", () => {
       const { result } = defaultRenderHook(() =>
         useLoginModel({
-          navigation: {
-            navigate: jest.fn(),
-          } as never,
+          navigation: { navigate: jest.fn() } as never,
         })
       );
 

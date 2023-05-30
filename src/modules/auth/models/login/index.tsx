@@ -1,12 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Alert } from "react-native";
-
 import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 
-import { supabase } from "../../services";
 import { loginFormSchema } from "./loginFormSchema";
 import type { LoginFormData } from "./types";
+import { supabase } from "../../services";
 
 /*
   ! todo:
