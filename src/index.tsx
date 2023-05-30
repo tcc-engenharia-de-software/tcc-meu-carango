@@ -2,10 +2,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { FC } from "react";
 
-import { LoginController } from "src/modules";
+import { LoginController, SignUpController, HomeController } from "src/modules";
 import { SCREEN_NAMES } from "./shared";
-import { HomeView } from "./modules/auth/views/home";
-import { SignUpController } from "./modules/auth/controllers/signUp";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,7 +25,7 @@ export const EntryPoint = () => (
 
       <Stack.Screen
         name={SCREEN_NAMES.Home}
-        component={HomeView}
+        component={HomeController}
         options={hideHeader}
       />
     </Stack.Navigator>

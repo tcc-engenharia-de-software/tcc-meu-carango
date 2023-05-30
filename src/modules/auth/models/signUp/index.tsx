@@ -51,8 +51,8 @@ export const useSignUpModel = ({ navigation }: RootStackParamList["Home"]) => {
 
     if (authentication.error) {
       return Alert.alert(
-        "Credenciais incorretas",
-        "Verifique seus dados e tente novamente!"
+        "Ops...Aconteceu um erro",
+        "Tente novamente mais tarde"
       );
     }
 

@@ -4,6 +4,6 @@ import { RootStackParamList } from "src/shared";
 
 import { HomeView } from "../../views";
 
-type LoginControllerProps = FC<RootStackParamList["Home"]>;
+type HomeControllerProps = FC<RootStackParamList["Home"]>;
 
-export const LoginController: LoginControllerProps = () => <HomeView />;
+export const HomeController: HomeControllerProps = () => <HomeView />;
