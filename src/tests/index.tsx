@@ -3,11 +3,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { FC } from "react";
 
 import {
+  act,
   fireEvent,
   render,
   renderHook,
   screen,
-  act,
 } from "@testing-library/react-native";
 
 import { SCREEN_NAMES } from "src/shared";
@@ -34,9 +34,9 @@ const ControllerComponentWrapper = (
 export {
   ControllerComponentWrapper,
   TestStack,
+  act,
   render as defaultRender,
   renderHook as defaultRenderHook,
   fireEvent,
   screen,
-  act,
 };

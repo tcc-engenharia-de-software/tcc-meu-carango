@@ -2,10 +2,10 @@ import { FC } from "react";
 import { Controller as FormController } from "react-hook-form";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
-import { UseLoginController } from "../../hooks/login/types";
+import { useLoginModel } from "../../models/login/types";
 import { styles } from "./styles";
 
-export const LoginView: FC<UseLoginController> = ({
+export const LoginView: FC<useLoginModel> = ({
   onSubmit,
   formControl,
   isButtonSubmitDisabled,
@@ -80,7 +80,7 @@ export const LoginView: FC<UseLoginController> = ({
         disabled={isButtonSubmitDisabled}
       >
         <Text className={styles.form.submitButtonText}>
-          {isLoading ? "..." : "Entrar"}
+          {isLoading ? "Carregando..." : "Entrar"}
         </Text>
       </TouchableOpacity>
     </View>
