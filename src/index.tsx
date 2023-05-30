@@ -2,8 +2,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { FC } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-
 import { LoginController } from "src/modules";
+
 import { RootStackParamList, SCREEN_NAMES } from "./shared";
 
 const Page1: FC<RootStackParamList["Home"]> = ({ navigation }) => {
@@ -20,8 +20,7 @@ const Page1: FC<RootStackParamList["Home"]> = ({ navigation }) => {
 
       <TouchableOpacity
         onPress={() => navigation.navigate("Login")}
-        className="bg-red-500 py-4 px-8 rounded-xl self-center w-4/5"
-      >
+        className="bg-red-500 py-4 px-8 rounded-xl self-center w-4/5">
         <Text className="text-white text-center">Click me</Text>
       </TouchableOpacity>
     </View>

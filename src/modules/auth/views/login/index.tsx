@@ -2,8 +2,8 @@ import { FC } from "react";
 import { Controller as FormController } from "react-hook-form";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
-import { useLoginModel } from "../../models/login/types";
 import { styles } from "./styles";
+import { useLoginModel } from "../../models/login/types";
 
 export const LoginView: FC<useLoginModel> = ({
   onSubmit,
@@ -58,7 +58,7 @@ export const LoginView: FC<useLoginModel> = ({
                 ` ${passwordError ? styles.form.inputError : ""}`
               }
               placeholder="Senha"
-              secureTextEntry={true}
+              secureTextEntry
               testID="password-input"
               onBlur={onBlur}
               onChangeText={handleInputChange(onChange)}
@@ -77,8 +77,7 @@ export const LoginView: FC<useLoginModel> = ({
         className={buttonSubmitStyle}
         onPress={onSubmit}
         testID="submit-button"
-        disabled={isButtonSubmitDisabled}
-      >
+        disabled={isButtonSubmitDisabled}>
         <Text className={styles.form.submitButtonText}>
           {isLoading ? "Carregando..." : "Entrar"}
         </Text>
