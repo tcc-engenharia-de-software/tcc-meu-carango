@@ -1,5 +1,4 @@
 import { FC } from "react";
-
 import { RootStackParamList } from "src/shared";
 
 import { useLoginModel } from "../../models";

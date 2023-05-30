@@ -1,6 +1,5 @@
-import { z } from "zod";
-
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@env";
+import { z } from "zod";
 
 // console.log(SUPABASE_ANON_KEY);
 
