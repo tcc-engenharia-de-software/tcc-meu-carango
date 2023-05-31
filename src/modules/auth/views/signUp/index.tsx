@@ -2,10 +2,10 @@ import { FC } from "react";
 import { Controller as FormController } from "react-hook-form";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
-import { useSignUpModel } from "../../models/signUp/types";
+import { UseSignUpModel } from "../../models/signUp/types";
 import { styles } from "./styles";
 
-export const SignUpView: FC<useSignUpModel> = ({
+export const SignUpView: FC<UseSignUpModel> = ({
   onSubmit,
   formControl,
   isButtonSubmitDisabled,
@@ -59,7 +59,7 @@ export const SignUpView: FC<useSignUpModel> = ({
                 ` ${passwordError ? styles.form.inputError : ""}`
               }
               placeholder="Senha"
-              secureTextEntry={true}
+              secureTextEntry
               testID="password-input"
               onBlur={onBlur}
               onChangeText={handleInputChange(onChange)}
@@ -84,7 +84,7 @@ export const SignUpView: FC<useSignUpModel> = ({
                 ` ${confirmPasswordError ? styles.form.inputError : ""}`
               }
               placeholder="Repetir senha"
-              secureTextEntry={true}
+              secureTextEntry
               testID="confirm-password-input"
               onBlur={onBlur}
               onChangeText={handleInputChange(onChange)}
@@ -105,8 +105,7 @@ export const SignUpView: FC<useSignUpModel> = ({
         className={buttonSubmitStyle}
         onPress={onSubmit}
         testID="submit-button"
-        disabled={isButtonSubmitDisabled}
-      >
+        disabled={isButtonSubmitDisabled}>
         <Text className={styles.form.submitButtonText}>
           {isLoading ? "Carregando..." : "Cadastrar"}
         </Text>
@@ -116,8 +115,7 @@ export const SignUpView: FC<useSignUpModel> = ({
         <Text>Já tem cadastro? </Text>
         <TouchableOpacity
           onPress={() => navigateToLogin()}
-          className={styles.login.containerClickHere}
-        >
+          className={styles.login.containerClickHere}>
           <Text className={styles.login.clickHere}>Clique aqui</Text>
         </TouchableOpacity>
       </View>
