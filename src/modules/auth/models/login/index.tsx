@@ -5,7 +5,7 @@ import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 
 import { loginFormSchema } from "./loginFormSchema";
 import type { LoginFormData } from "./types";
-import { supabase } from "../../services";
+import { supabase } from "../../../../services";
 
 /*
   ! todo:

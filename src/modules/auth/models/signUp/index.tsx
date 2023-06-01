@@ -4,7 +4,7 @@ import { Alert } from "react-native";
 
 import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 
-import { supabase } from "../../services";
+import { supabase } from "../../../../services";
 import { signUpFormSchema } from "./signUpFormSchema";
 import type { signUpFormData } from "./types";
 

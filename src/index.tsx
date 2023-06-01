@@ -10,7 +10,7 @@ const Stack = createNativeStackNavigator();
 const hideHeader = { headerShown: false };
 export const EntryPoint = () => (
   <NavigationContainer>
-    <Stack.Navigator initialRouteName={SCREEN_NAMES.SignUp}>
+    <Stack.Navigator initialRouteName={SCREEN_NAMES.Home}>
       <Stack.Screen
         name={SCREEN_NAMES.Login}
         component={LoginController}

@@ -2,8 +2,10 @@ import { FC } from "react";
 
 import { RootStackParamList } from "src/shared";
 
-import { HomeView } from "../../views";
+import { HomeView } from "../views";
 
 type HomeControllerProps = FC<RootStackParamList["Home"]>;
 
-export const HomeController: HomeControllerProps = () => <HomeView />;
+export const HomeController: HomeControllerProps = ({ navigation }) => (
+  <HomeView />
+);

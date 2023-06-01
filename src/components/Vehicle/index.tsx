@@ -2,11 +2,10 @@ import React from "react";
 import { View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-const handleNewVehicle = () => {
-  console.log("zzz");
-};
-
 export const NewVehicle = () => {
+  const handleNewVehicle = () => {
+    // onSubmit();
+  };
   return (
     <View className="text-xl ml-4 mt-10">
       <TouchableOpacity
