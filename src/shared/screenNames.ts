@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 export const SCREEN_NAMES = {
   Home: "Home",
   Login: "Login",
+  SignUp: "SignUp",
   Register: "Register",
   ForgotPassword: "ForgotPassword",
   ResetPassword: "ResetPassword",
