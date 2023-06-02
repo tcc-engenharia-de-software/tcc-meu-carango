@@ -1,4 +1,6 @@
-# Crud with react native using mvc
+# TCC PUC Minas - Meu Carango App
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tcc-engenharia-de-software_tcc-meu-carango&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=tcc-engenharia-de-software_tcc-meu-carango)
 
 ## Installation
 
