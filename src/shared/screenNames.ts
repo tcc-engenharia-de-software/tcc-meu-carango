@@ -18,5 +18,7 @@ export type RootStackParamList = {
   Register: undefined;
   ForgotPassword: undefined;
   ResetPassword: undefined;
-  Vehicle: undefined;
+  Vehicle: {
+    navigation: NativeStackNavigationProp<RootStackParamList, "Home">;
+  };
 };
