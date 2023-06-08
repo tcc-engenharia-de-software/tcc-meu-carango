@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Alert } from "react-native";
 
-import { RootStackParamList, SCREEN_NAMES } from "src/shared";
+import { RootStackParamList } from "src/shared";
 
 import { supabase } from "../../../services";
 import { vehicleFormSchema } from "./vehicleFormSchema";
@@ -11,12 +11,12 @@ import type { vehicleFormData } from "./types";
 const initialFormValues: vehicleFormData = {
   color: "",
   deleted: false,
-  fuelType: ["Gasolina"],
-  initialKilometer: 0,
-  manufacturer: "Chevrolet",
-  model: "teste",
-  plate: "ODC9A21",
-  year: 2014,
+  fuelType: [""],
+  initialKilometer: "",
+  manufacturer: "",
+  model: "",
+  plate: "",
+  year: "",
 };
 export const useVehicleModel = ({ navigation }: RootStackParamList["Home"]) => {
   const {
@@ -31,13 +31,19 @@ export const useVehicleModel = ({ navigation }: RootStackParamList["Home"]) => {
   });
   const isButtonSubmitDisabled = !formState.isValid || formState.isSubmitting;
   const isLoading = formState.isSubmitting;
+  const plateError = formState.errors.plate?.message;
+  const fuelTypeError = formState.errors.fuelType?.message;
+  const initialKilometerError = formState.errors.initialKilometer?.message;
+  const modelError = formState.errors.model?.message;
+  const manufacturerError = formState.errors.manufacturer?.message;
+  const yearError = formState.errors.year?.message;
+  const colorError = formState.errors.color?.message;
 
   const onSubmit = handleSubmit(async (data: vehicleFormData) => {
-    console.log("bateu");
     if (isLoading || isButtonSubmitDisabled) return;
 
-    const result = await supabase.from("vehicle").select();
-    console.log(result);
+    const result = await supabase.from("vehicle").insert([data]);
+
     if (result.error) {
       return Alert.alert(
         "Ops...Aconteceu um erro",
@@ -60,5 +66,12 @@ export const useVehicleModel = ({ navigation }: RootStackParamList["Home"]) => {
     isButtonSubmitDisabled,
     onSubmit,
     handleInputChange,
+    plateError,
+    fuelTypeError,
+    initialKilometerError,
+    modelError,
+    manufacturerError,
+    yearError,
+    colorError,
   };
 };

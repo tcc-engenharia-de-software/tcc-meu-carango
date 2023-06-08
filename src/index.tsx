@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { LoginController, SignUpController, HomeController } from "src/modules";
 
 import { SCREEN_NAMES } from "./shared";
+import { VehicleController } from "./modules/vehicle/controllers";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,11 @@ export const EntryPoint = () => (
       <Stack.Screen
         name={SCREEN_NAMES.Home}
         component={HomeController}
+        options={hideHeader}
+      />
+      <Stack.Screen
+        name={SCREEN_NAMES.vehicle}
+        component={VehicleController}
         options={hideHeader}
       />
     </Stack.Navigator>

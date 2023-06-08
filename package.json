@@ -80,7 +80,8 @@
   "eslintConfig": {
     "extends": "universe/native",
     "rules": {
-      "import/order": "off"
+      "import/order": "off",
+      "react/jsx-curly-brace-presence": "off"
     }
   }
 }
