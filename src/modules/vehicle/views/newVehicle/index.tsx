@@ -1,16 +1,16 @@
+import RNPickerSelect, { Item } from "react-native-picker-select";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
+
 import { FC } from "react";
 import { Controller as FormController } from "react-hook-form";
-import { View, TextInput, TouchableOpacity, Text } from "react-native";
-import RNPickerSelect from "react-native-picker-select";
-import { styles } from "./styles";
-import { UseVehicleModel } from "../../models/types";
 import { Header } from "src/components/Header";
+import { UseVehicleModel } from "../../models/types";
+import { styles } from "./styles";
 
 export const VehicleView: FC<UseVehicleModel> = ({
   onSubmit,
   formControl,
   isButtonSubmitDisabled,
-  isLoading,
   handleInputChange,
   fuelTypeError,
   initialKilometerError,
@@ -19,6 +19,7 @@ export const VehicleView: FC<UseVehicleModel> = ({
   plateError,
   yearError,
   colorError,
+  getManufacturerItems,
 }) => {
   const buttonSubmitStyle = [
     styles.form.submitButton,
@@ -37,11 +38,7 @@ export const VehicleView: FC<UseVehicleModel> = ({
           render={({ field: { value } }) => (
             <RNPickerSelect
               onValueChange={(value) => console.log(value)}
-              items={[
-                { label: "Opção 1", value: "option1" },
-                { label: "Opção 2", value: "option2" },
-                { label: "Opção 3", value: "option3" },
-              ]}
+              items={getManufacturerItems() as unknown as Item[]}
               key={"manufacturer"}
               placeholder={{ label: "Fabricante" }}
             />
