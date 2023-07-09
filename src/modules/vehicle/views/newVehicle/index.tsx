@@ -1,4 +1,6 @@
-import RNPickerSelect, { Item } from "react-native-picker-select";
+// import RNPickerSelect, { Item } from "react-native-picker-select";
+
+import { Picker } from "@react-native-picker/picker";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import { FC } from "react";
@@ -36,12 +38,22 @@ export const VehicleView: FC<UseVehicleModel> = ({
           control={formControl}
           name="manufacturer"
           render={({ field: { value } }) => (
-            <RNPickerSelect
-              onValueChange={(value) => console.log(value)}
-              items={getManufacturerItems() as unknown as Item[]}
-              key={"manufacturer"}
-              placeholder={{ label: "Fabricante" }}
-            />
+            // <RNPickerSelect
+            //   onValueChange={(value) => console.log(value)}
+            //   items={getManufacturerItems() as unknown as Item[]}
+            //   key={`manufacturer: ${value}`}
+            //   placeholder={{ label: "Fabricante" }}
+            // />
+
+            <Picker
+              selectedValue={(value: any) => console.log(value)}
+              onValueChange={(itemValue, itemIndex) =>
+                // setSelectedLanguage(itemValue)
+                console.log(itemValue)
+              }>
+              <Picker.Item label="Java" value="java" />
+              <Picker.Item label="JavaScript" value="js" />
+            </Picker>
           )}
         />
         {manufacturerError ? (
@@ -106,22 +118,22 @@ export const VehicleView: FC<UseVehicleModel> = ({
         ) : null}
       </View>
       <View className={styles.form.inputPicker}>
-        <FormController
+        {/* <FormController
           control={formControl}
           name="fuelType"
           render={({ field: { value } }) => (
             <RNPickerSelect
-              onValueChange={(value) => console.log(value)}
+              onValueChange={(value: any) => console.log(value)}
               items={[
                 { label: "Gasolina", value: "gas" },
                 { label: "Diesel", value: "die" },
                 { label: "Etanol", value: "eta" },
               ]}
-              key={"fuelType"}
+              key={`fuelType: ${value}`}
               placeholder={{ label: "Tipo de combustível" }}
             />
           )}
-        />
+        /> */}
       </View>
       {fuelTypeError ? (
         <Text className={styles.form.inputErrorText}>{fuelTypeError}</Text>

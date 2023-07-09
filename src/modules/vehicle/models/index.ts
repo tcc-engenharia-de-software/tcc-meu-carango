@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import type { vehicleFormData } from "./types";
 import { vehicleFormSchema } from "./vehicleFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useMemo, useState } from "react";
 
 type ManufacturerItem = {
   label: string;
@@ -32,6 +33,11 @@ export const useVehicleModel = ({ navigation }: RootStackParamList["Home"]) => {
     mode: "onChange",
     resolver: zodResolver(vehicleFormSchema),
   });
+
+  const [manufacturerItems, setManufacturerItems] = useState<
+    ManufacturerItem[]
+  >([]);
+
   const isButtonSubmitDisabled = !formState.isValid || formState.isSubmitting;
   const isLoading = formState.isSubmitting;
   const plateError = formState.errors.plate?.message;
@@ -63,15 +69,17 @@ export const useVehicleModel = ({ navigation }: RootStackParamList["Home"]) => {
     };
   };
 
-  const getManufacturerItems = async () => {
-    const { data } = await supabase.from("manufacturer").select();
+  useEffect(() => {
+    const loadData = async () => {
+      const { data } = await supabase.from("manufacturer").select();
 
-    const parseItems = (data || []).map((item, index) => {
-      return { label: item.name, value: item.name };
-    });
+      if (!data) return;
 
-    return [parseItems];
-  };
+      setManufacturerItems(data);
+    };
+
+    loadData();
+  }, []);
 
   return {
     formControl,
@@ -86,6 +94,6 @@ export const useVehicleModel = ({ navigation }: RootStackParamList["Home"]) => {
     manufacturerError,
     yearError,
     colorError,
-    getManufacturerItems,
+    getManufacturerItems: manufacturerItems,
   };
 };
