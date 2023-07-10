@@ -1,11 +1,11 @@
 // import RNPickerSelect, { Item } from "react-native-picker-select";
 
-import { Picker } from "@react-native-picker/picker";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import { FC } from "react";
 import { Controller as FormController } from "react-hook-form";
 import { Header } from "src/components/Header";
+import { Picker } from "@react-native-picker/picker";
 import { UseVehicleModel } from "../../models/types";
 import { styles } from "./styles";
 
@@ -21,7 +21,8 @@ export const VehicleView: FC<UseVehicleModel> = ({
   plateError,
   yearError,
   colorError,
-  getManufacturerItems,
+  manufacturerItems,
+  setValue,
 }) => {
   const buttonSubmitStyle = [
     styles.form.submitButton,
@@ -38,21 +39,14 @@ export const VehicleView: FC<UseVehicleModel> = ({
           control={formControl}
           name="manufacturer"
           render={({ field: { value } }) => (
-            // <RNPickerSelect
-            //   onValueChange={(value) => console.log(value)}
-            //   items={getManufacturerItems() as unknown as Item[]}
-            //   key={`manufacturer: ${value}`}
-            //   placeholder={{ label: "Fabricante" }}
-            // />
-
             <Picker
-              selectedValue={(value: any) => console.log(value)}
-              onValueChange={(itemValue, itemIndex) =>
-                // setSelectedLanguage(itemValue)
-                console.log(itemValue)
+              selectedValue={value}
+              onValueChange={(itemValue) =>
+                setValue("manufacturer", itemValue)
               }>
-              <Picker.Item label="Java" value="java" />
-              <Picker.Item label="JavaScript" value="js" />
+              {manufacturerItems.map(({ name, id }) => (
+                <Picker.Item label={name} value={name} />
+              ))}
             </Picker>
           )}
         />
@@ -118,22 +112,19 @@ export const VehicleView: FC<UseVehicleModel> = ({
         ) : null}
       </View>
       <View className={styles.form.inputPicker}>
-        {/* <FormController
+        <FormController
           control={formControl}
           name="fuelType"
           render={({ field: { value } }) => (
-            <RNPickerSelect
-              onValueChange={(value: any) => console.log(value)}
-              items={[
-                { label: "Gasolina", value: "gas" },
-                { label: "Diesel", value: "die" },
-                { label: "Etanol", value: "eta" },
-              ]}
-              key={`fuelType: ${value}`}
-              placeholder={{ label: "Tipo de combustível" }}
-            />
+            <Picker
+              selectedValue={(value: any) => console.log(value)}
+              onValueChange={(itemValue) => console.log(itemValue)}>
+              <Picker.Item label="Gasolina" value="gas" />
+              <Picker.Item label="Diesel" value="die" />
+              <Picker.Item label="Etanol" value="eta" />
+            </Picker>
           )}
-        /> */}
+        />
       </View>
       {fuelTypeError ? (
         <Text className={styles.form.inputErrorText}>{fuelTypeError}</Text>

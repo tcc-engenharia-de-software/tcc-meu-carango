@@ -1,3 +1,5 @@
+import { useEffect, useMemo, useState } from "react";
+
 import { Alert } from "react-native";
 import { RootStackParamList } from "src/shared";
 import { supabase } from "../../../services";
@@ -5,11 +7,11 @@ import { useForm } from "react-hook-form";
 import type { vehicleFormData } from "./types";
 import { vehicleFormSchema } from "./vehicleFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useMemo, useState } from "react";
 
 type ManufacturerItem = {
-  label: string;
-  value: string;
+  created_at: string;
+  id: number;
+  name: string;
 };
 
 const initialFormValues: vehicleFormData = {
@@ -28,6 +30,7 @@ export const useVehicleModel = ({ navigation }: RootStackParamList["Home"]) => {
     formState,
     handleSubmit,
     reset,
+    setValue,
   } = useForm<vehicleFormData>({
     defaultValues: initialFormValues,
     mode: "onChange",
@@ -73,9 +76,11 @@ export const useVehicleModel = ({ navigation }: RootStackParamList["Home"]) => {
     const loadData = async () => {
       const { data } = await supabase.from("manufacturer").select();
 
+      console.log(data);
+
       if (!data) return;
 
-      setManufacturerItems(data);
+      setManufacturerItems(data as any);
     };
 
     loadData();
@@ -94,6 +99,7 @@ export const useVehicleModel = ({ navigation }: RootStackParamList["Home"]) => {
     manufacturerError,
     yearError,
     colorError,
-    getManufacturerItems: manufacturerItems,
+    manufacturerItems,
+    setValue,
   };
 };
