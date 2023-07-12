@@ -1,5 +1,3 @@
-// import RNPickerSelect, { Item } from "react-native-picker-select";
-
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import { FC } from "react";
@@ -45,7 +43,7 @@ export const VehicleView: FC<UseVehicleModel> = ({
                 setValue("manufacturer", itemValue)
               }>
               {manufacturerItems.map(({ name, id }) => (
-                <Picker.Item label={name} value={name} />
+                <Picker.Item key={id} label={name} value={name} />
               ))}
             </Picker>
           )}
@@ -85,6 +83,7 @@ export const VehicleView: FC<UseVehicleModel> = ({
               onChangeText={handleInputChange(onChange)}
               keyboardType="numeric"
               value={value}
+              maxLength={4}
             />
           )}
           name="year"
@@ -103,6 +102,7 @@ export const VehicleView: FC<UseVehicleModel> = ({
               testID="plate"
               onBlur={onBlur}
               onChangeText={handleInputChange(onChange)}
+              maxLength={7}
             />
           )}
           name="plate"
@@ -116,9 +116,7 @@ export const VehicleView: FC<UseVehicleModel> = ({
           control={formControl}
           name="fuelType"
           render={({ field: { value } }) => (
-            <Picker
-              selectedValue={(value: any) => console.log(value)}
-              onValueChange={(itemValue) => console.log(itemValue)}>
+            <Picker>
               <Picker.Item label="Gasolina" value="gas" />
               <Picker.Item label="Diesel" value="die" />
               <Picker.Item label="Etanol" value="eta" />

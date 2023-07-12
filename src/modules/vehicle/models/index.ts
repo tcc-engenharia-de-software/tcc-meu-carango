@@ -76,8 +76,6 @@ export const useVehicleModel = ({ navigation }: RootStackParamList["Home"]) => {
     const loadData = async () => {
       const { data } = await supabase.from("manufacturer").select();
 
-      console.log(data);
-
       if (!data) return;
 
       setManufacturerItems(data as any);
