@@ -1,15 +1,20 @@
 import React, { FC } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { FlatList, TouchableOpacity, View } from "react-native";
 
 import { Header } from "src/components/Header";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "./styles";
+import { CardVehicle } from "src/components/CardVehicle";
 
 type HomeTypes = {
   redirectToVehicleForm: Function;
+  vehicleData: any[];
 };
 
-export const HomeView: FC<HomeTypes> = ({ redirectToVehicleForm }) => {
+export const HomeView: FC<HomeTypes> = ({
+  redirectToVehicleForm,
+  vehicleData,
+}) => {
   const handleNewVehicle = () => {
     redirectToVehicleForm();
   };
@@ -24,6 +29,18 @@ export const HomeView: FC<HomeTypes> = ({ redirectToVehicleForm }) => {
           <Icon name="plus" color="#717171" size={60} />
         </TouchableOpacity>
       </View>
+      <FlatList
+        data={vehicleData}
+        renderItem={({ item }) => (
+          <CardVehicle
+            initialKilometer={item.initialKilometer}
+            name={item.model}
+            plate={item.plate}
+          />
+        )}
+        keyExtractor={(item) => item.id}
+        horizontal
+      />
     </View>
   );
 };
