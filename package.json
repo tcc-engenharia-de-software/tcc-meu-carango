@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@faker-js/faker": "^8.0.2",
     "@testing-library/react-native": "^12.1.2",
     "@types/jest": "^29.5.1",
     "@types/react": "^18.0.27",
@@ -90,7 +91,7 @@
     "lint:fix": "npx eslint ./src/** --fix",
     "start": "expo start",
     "test": "jest",
-    "test:ci": "jest --ci --coverage",
+    "test:ci": "jest --ci --coverage --runInBand --verbose --watch",
     "test:watch": "jest --watch"
   },
   "version": "1.0.0"
