@@ -5,6 +5,7 @@ import { Header } from "src/components/Header";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "./styles";
 import { CardVehicle } from "src/components/CardVehicle";
+import { ResponseInfo } from "src/components/ResponseInfo";
 
 type HomeTypes = {
   redirectToVehicleForm: Function;
@@ -33,14 +34,23 @@ export const HomeView: FC<HomeTypes> = ({
         data={vehicleData}
         renderItem={({ item }) => (
           <CardVehicle
+            idVehicle={item.id}
             initialKilometer={item.initialKilometer}
             name={item.model}
             plate={item.plate}
           />
         )}
         keyExtractor={(item) => item.id}
+        showsHorizontalScrollIndicator={false}
         horizontal
       />
+      {/* <ResponseInfo
+        title="Abastecimento"
+        description="tente novamente a request"
+        error
+        actionBackHome={() => {}}
+        actionTryAgain={() => {}}
+      /> */}
     </View>
   );
 };
