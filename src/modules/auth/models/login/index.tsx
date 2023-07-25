@@ -3,23 +3,11 @@ import { useForm } from "react-hook-form";
 import { Alert } from "react-native";
 import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 
+import { useAuth } from "../../hooks";
+
 import { loginFormSchema } from "./loginFormSchema";
 import type { LoginFormData } from "./types";
-import { supabase } from "../../../../services";
 
-/*
-  ! todo:
-  - [x] install react-hook-form
-  - [x] do logic to handle with form using react-hook-form
-  - [x] install supabase client
-  - [x] implement authentication with supabase
-  - [x] install lib to handle with async storage
-  - [x] save token in async storage
-  - [x] create a hook to handle with authentication
-  - [x] install libs to handle with tests
-  - [ ] create tests
-  - [x] move types to separate file
-*/
 const initialFormValues: LoginFormData = {
   email: "",
   password: "",
@@ -36,6 +24,8 @@ export const useLoginModel = ({ navigation }: RootStackParamList["Home"]) => {
     resolver: zodResolver(loginFormSchema),
   });
 
+  const authentication = useAuth();
+
   const emailError = formState.errors.email?.message;
   const passwordError = formState.errors.password?.message;
   const isButtonSubmitDisabled = !formState.isValid || formState.isSubmitting;
@@ -44,17 +34,17 @@ export const useLoginModel = ({ navigation }: RootStackParamList["Home"]) => {
   const onSubmit = handleSubmit(async (data: LoginFormData) => {
     if (isLoading || isButtonSubmitDisabled) return;
 
-    const authentication = await supabase.auth.signInWithPassword(data);
+    try {
+      await authentication.signIn(data);
 
-    if (authentication.error) {
-      return Alert.alert(
+      reset(initialFormValues);
+      navigation.navigate(SCREEN_NAMES.Home as never);
+    } catch {
+      Alert.alert(
         "Credenciais incorretas",
         "Verifique seus dados e tente novamente!"
       );
     }
-
-    reset(initialFormValues);
-    navigation.navigate(SCREEN_NAMES.Home as never);
   });
 
   const handleInputChange = (cb: (text: string) => void) => {

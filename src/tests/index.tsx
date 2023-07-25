@@ -8,6 +8,8 @@ import {
   screen,
 } from "@testing-library/react-native";
 import { FC } from "react";
+import { faker } from "@faker-js/faker";
+
 import { SCREEN_NAMES } from "src/shared";
 
 const TestStack = createNativeStackNavigator();
@@ -35,6 +37,7 @@ export {
   act,
   render as defaultRender,
   renderHook as defaultRenderHook,
+  faker,
   fireEvent,
   screen,
 };
