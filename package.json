@@ -91,7 +91,7 @@
     "lint:fix": "npx eslint ./src/** --fix",
     "start": "expo start",
     "test": "jest",
-    "test:ci": "jest --ci --coverage --runInBand --verbose --watch",
+    "test:ci": "jest --ci --coverage --runInBand --verbose",
     "test:watch": "jest --watch"
   },
   "version": "1.0.0"

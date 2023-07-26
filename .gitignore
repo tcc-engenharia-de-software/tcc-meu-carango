@@ -19,5 +19,4 @@ web-build/
 coverage
 .env
 
-package-lock.json
 yarn.lock
