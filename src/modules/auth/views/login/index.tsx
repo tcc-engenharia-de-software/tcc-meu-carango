@@ -2,10 +2,10 @@ import { FC } from "react";
 import { Controller as FormController } from "react-hook-form";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
+import { UseLoginModel } from "../../models/login/types";
 import { styles } from "./styles";
-import { useLoginModel } from "../../models/login/types";
 
-export const LoginView: FC<useLoginModel> = ({
+export const LoginView: FC<UseLoginModel> = ({
   onSubmit,
   formControl,
   isButtonSubmitDisabled,

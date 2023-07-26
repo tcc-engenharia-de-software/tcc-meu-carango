@@ -1,4 +1,4 @@
-import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@env";
+import { SUPABASE_ANON_KEY, SUPABASE_URL } from "react-native-dotenv";
 import { z } from "zod";
 
 const configurationsSchema = z.object({
