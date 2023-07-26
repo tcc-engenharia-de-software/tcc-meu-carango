@@ -1,5 +1,4 @@
-import React from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, Alert } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -10,6 +9,8 @@ interface CardVehicleProps {
   idVehicle: number;
 }
 
+const DEFAULT_INITIAL_KILOMETER = 0;
+
 export const CardVehicle: React.FC<CardVehicleProps> = ({
   name,
   plate,
@@ -19,9 +20,8 @@ export const CardVehicle: React.FC<CardVehicleProps> = ({
   const handleVehicleDetails = async () => {
     try {
       await AsyncStorage.setItem("@MeuCarango:vehiclekey", idVehicle + "");
-      console.log("Valor salvo no AsyncStorage.");
-    } catch (error) {
-      console.log("Erro ao salvar valor no AsyncStorage:", error);
+    } catch {
+      Alert.alert("Erro ao salvar o veículo");
     }
   };
 
@@ -33,7 +33,7 @@ export const CardVehicle: React.FC<CardVehicleProps> = ({
           Placa: {plate.toLocaleUpperCase()}
         </Text>
         <Text className="text-gray-500 mt-1">
-          Km Total: {initialKilometer || 0}
+          Km Total: {initialKilometer || DEFAULT_INITIAL_KILOMETER}
         </Text>
       </View>
     </TouchableOpacity>

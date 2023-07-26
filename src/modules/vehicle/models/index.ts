@@ -1,12 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { Alert } from "react-native";
 import { RootStackParamList } from "src/shared";
 import { supabase } from "../../../services";
-import { useForm } from "react-hook-form";
 import type { vehicleFormData } from "./types";
 import { vehicleFormSchema } from "./vehicleFormSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 type ManufacturerItem = {
   created_at: string;

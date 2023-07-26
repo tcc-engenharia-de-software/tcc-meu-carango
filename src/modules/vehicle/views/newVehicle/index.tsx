@@ -171,7 +171,7 @@ export const VehicleView: FC<UseVehicleModel> = ({
         onPress={onSubmit}
         testID="submit-button"
         disabled={isButtonSubmitDisabled}>
-        <Text className={styles.form.submitButtonText}>{"ADICIONAR"}</Text>
+        <Text className={styles.form.submitButtonText}>ADICIONAR</Text>
       </TouchableOpacity>
     </View>
   );
