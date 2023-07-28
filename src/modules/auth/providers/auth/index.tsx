@@ -8,7 +8,7 @@ import {
 } from "react";
 
 import { AuthContextData, AuthState, LoginCredentials } from "./types";
-import { supabase } from "~/services";
+import { supabase } from "../../../../services";
 
 export const AuthContext = createContext({} as AuthContextData);
 
