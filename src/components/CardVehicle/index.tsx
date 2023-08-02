@@ -8,6 +8,7 @@ interface CardVehicleProps {
   plate: string;
   initialKilometer: string;
   idVehicle: number;
+  clickCard: Function;
 }
 
 const DEFAULT_INITIAL_KILOMETER = 0;
@@ -17,10 +18,12 @@ export const CardVehicle: React.FC<CardVehicleProps> = ({
   plate,
   initialKilometer,
   idVehicle,
+  clickCard,
 }) => {
   const handleVehicleDetails = async () => {
     try {
       await AsyncStorage.setItem("@MeuCarango:vehiclekey", idVehicle + "");
+      clickCard();
     } catch {
       Alert.alert("Erro ao salvar o veículo");
     }

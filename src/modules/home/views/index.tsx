@@ -8,12 +8,14 @@ import { CardVehicle } from "src/components/CardVehicle";
 
 type HomeTypes = {
   redirectToVehicleForm: Function;
+  redirectToVehicleDetail: Function;
   vehicleData: any[];
 };
 
 export const HomeView: FC<HomeTypes> = ({
   redirectToVehicleForm,
   vehicleData,
+  redirectToVehicleDetail,
 }) => {
   const handleNewVehicle = () => {
     redirectToVehicleForm();
@@ -33,6 +35,7 @@ export const HomeView: FC<HomeTypes> = ({
         data={vehicleData}
         renderItem={({ item }) => (
           <CardVehicle
+            clickCard={redirectToVehicleDetail}
             idVehicle={item.id}
             initialKilometer={item.initialKilometer}
             name={item.model}
