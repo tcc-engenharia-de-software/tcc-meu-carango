@@ -5,7 +5,7 @@ import { UseVehicleDetailModel } from "../models/types";
 import { styles } from "./styles";
 import { ExpenseCard } from "../../../components/ExpenseCard";
 
-export const VehicleDetailView: FC<UseVehicleDetailModel> = ({}) => {
+export const VehicleDetailView: FC<UseVehicleDetailModel> = () => {
   const expenseCards = [
     {
       id: 1,
