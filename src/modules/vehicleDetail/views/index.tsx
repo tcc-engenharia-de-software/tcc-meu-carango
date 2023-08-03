@@ -2,8 +2,8 @@ import { Text, View, ScrollView, FlatList } from "react-native";
 
 import { FC } from "react";
 import { UseVehicleDetailModel } from "../models/types";
-import { styles } from "./styles";
 import { ExpenseCard } from "../../../components/ExpenseCard";
+import { styles } from "./styles";
 
 export const VehicleDetailView: FC<UseVehicleDetailModel> = () => {
   const expenseCards = [
