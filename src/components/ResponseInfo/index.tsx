@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Text, View } from "react-native";
 
-import { styles } from "./styles";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 interface ResponseInfoError {
