@@ -5,6 +5,7 @@ import { LoginController, SignUpController, HomeController } from "src/modules";
 
 import { SCREEN_NAMES } from "./shared";
 import { VehicleController } from "./modules/vehicle/controllers";
+import { VehicleDetailController } from "./modules/vehicleDetail/controllers";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,11 @@ export const EntryPoint = () => (
       <Stack.Screen
         name={SCREEN_NAMES.vehicle}
         component={VehicleController}
+        options={hideHeader}
+      />
+      <Stack.Screen
+        name={SCREEN_NAMES.vehicleDetail}
+        component={VehicleDetailController}
         options={hideHeader}
       />
     </Stack.Navigator>
