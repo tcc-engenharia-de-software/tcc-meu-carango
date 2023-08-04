@@ -1,25 +1,39 @@
-import React, { FC } from "react";
-import { FlatList, TouchableOpacity, View } from "react-native";
+import React, { FC, useMemo } from "react";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { Row, Rows, Table } from "react-native-table-component";
 
-import { Header } from "src/components/Header";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { styles } from "./styles";
 import { CardVehicle } from "src/components/CardVehicle";
+import { Header } from "src/components/Header";
 
-type HomeTypes = {
-  redirectToVehicleForm: Function;
-  redirectToVehicleDetail: Function;
-  vehicleData: any[];
-};
+import { styles } from "./styles";
+import { HomeViewProps } from "./types";
 
-export const HomeView: FC<HomeTypes> = ({
+const LENGTH_OF_VOID_ARRAY = 0;
+const FRACTIONAL_DIGITS_TO_MONEY = 2;
+
+export const HomeView: FC<HomeViewProps> = ({
   redirectToVehicleForm,
   vehicleData,
   redirectToVehicleDetail,
+  recentExpenses,
 }) => {
   const handleNewVehicle = () => {
     redirectToVehicleForm();
   };
+
+  const currentBills = useMemo(() => {
+    if (recentExpenses.length > LENGTH_OF_VOID_ARRAY) {
+      return recentExpenses.map((expense) => [
+        expense.plate,
+        expense.type,
+        expense.date,
+        `R$ ${expense.value.toFixed(FRACTIONAL_DIGITS_TO_MONEY)}`,
+      ]);
+    }
+
+    return [["Ainda não há dados para serem exibidos"]];
+  }, [recentExpenses]);
 
   return (
     <View className={styles.home.container}>
@@ -33,7 +47,7 @@ export const HomeView: FC<HomeTypes> = ({
       </View>
       <FlatList
         data={vehicleData}
-        renderItem={({ item }) => (
+        renderItem={({ item }: any) => (
           <CardVehicle
             clickCard={redirectToVehicleDetail}
             idVehicle={item.id}
@@ -42,10 +56,26 @@ export const HomeView: FC<HomeTypes> = ({
             plate={item.plate}
           />
         )}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item: any) => item.id}
         showsHorizontalScrollIndicator={false}
         horizontal
       />
+
+      <Text className={styles.home.recentExpenses.title}>
+        Despesas recentes
+      </Text>
+
+      <Table style={styles.home.recentExpenses.table.container}>
+        <Row
+          style={styles.home.recentExpenses.table.header}
+          data={["Placa", "Tipo de gasto", "Data", "valor"]}
+        />
+        <Rows
+          style={styles.home.recentExpenses.table.rows.self}
+          textStyle={styles.home.recentExpenses.table.rows.textStyle}
+          data={currentBills}
+        />
+      </Table>
     </View>
   );
 };

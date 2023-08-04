@@ -1,11 +1,15 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { LoginController, SignUpController, HomeController } from "src/modules";
+import {
+  HomeController,
+  LoginController,
+  SignUpController,
+  VehicleController,
+  VehicleDetailController,
+} from "src/modules";
 
 import { SCREEN_NAMES } from "./shared";
-import { VehicleController } from "./modules/vehicle/controllers";
-import { VehicleDetailController } from "./modules/vehicleDetail/controllers";
 
 const Stack = createNativeStackNavigator();
 
