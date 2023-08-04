@@ -6,10 +6,10 @@ import {
   LoginController,
   SignUpController,
   VehicleController,
+  VehicleDetailController,
 } from "src/modules";
 
 import { SCREEN_NAMES } from "./shared";
-import { VehicleDetailController } from "./modules/vehicleDetail/controllers";
 
 const Stack = createNativeStackNavigator();
 
