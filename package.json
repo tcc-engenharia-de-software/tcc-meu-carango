@@ -48,8 +48,8 @@
   },
   "eslintConfig": {
     "extends": [
-      "plugin:react-hooks/recommended",
-      "universe/native"
+      "universe/native",
+      "plugin:react-hooks/recommended"
     ],
     "plugins": [
       "@typescript-eslint",
