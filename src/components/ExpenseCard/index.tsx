@@ -5,7 +5,7 @@ import { styles } from "./styles";
 interface ExpenseCardProps {
   title: string;
   description: string;
-  action: Function;
+  action?: Function;
 }
 
 export const ExpenseCard: React.FC<ExpenseCardProps> = ({
@@ -14,7 +14,7 @@ export const ExpenseCard: React.FC<ExpenseCardProps> = ({
   action,
 }) => {
   const handleClickCard = () => {
-    action();
+    action?.();
   };
 
   return (

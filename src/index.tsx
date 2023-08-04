@@ -7,6 +7,7 @@ import {
   SignUpController,
   VehicleController,
   VehicleDetailController,
+  MaintenanceController,
 } from "src/modules";
 
 import { SCREEN_NAMES } from "./shared";
@@ -35,13 +36,18 @@ export const EntryPoint = () => (
         options={hideHeader}
       />
       <Stack.Screen
-        name={SCREEN_NAMES.vehicle}
+        name={SCREEN_NAMES.Vehicle}
         component={VehicleController}
         options={hideHeader}
       />
       <Stack.Screen
-        name={SCREEN_NAMES.vehicleDetail}
+        name={SCREEN_NAMES.VehicleDetail}
         component={VehicleDetailController}
+        options={hideHeader}
+      />
+      <Stack.Screen
+        name={SCREEN_NAMES.Maintenance}
+        component={MaintenanceController}
         options={hideHeader}
       />
     </Stack.Navigator>

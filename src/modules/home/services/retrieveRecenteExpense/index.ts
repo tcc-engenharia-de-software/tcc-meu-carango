@@ -1,4 +1,4 @@
-import { configurations } from "~/shared";
+import { configurations } from "./../../../../shared";
 import { expenseQuery } from "./queries";
 import { ExpenseNormalized, ExpenseResponse } from "./types";
 
@@ -29,7 +29,7 @@ export const retrieveRecenteExpense = async (
       }) => {
         const expenses: ExpenseNormalized[] = [];
 
-        fuel_supplyCollection.edges.forEach(({ node }) => {
+        fuel_supplyCollection?.edges?.forEach(({ node }) => {
           expenses.push({
             id: node.id,
             date: node.date_time,

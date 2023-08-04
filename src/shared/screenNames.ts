@@ -7,8 +7,9 @@ export const SCREEN_NAMES = {
   Register: "Register",
   ForgotPassword: "ForgotPassword",
   ResetPassword: "ResetPassword",
-  vehicle: "Vehicle",
-  vehicleDetail: "vehicleDetail",
+  Vehicle: "Vehicle",
+  VehicleDetail: "VehicleDetail",
+  Maintenance: "Maintenance",
 };
 
 export type RootStackParamList = {
@@ -23,6 +24,9 @@ export type RootStackParamList = {
     navigation: NativeStackNavigationProp<RootStackParamList, "Home">;
   };
   VehicleDetail: {
+    navigation: NativeStackNavigationProp<RootStackParamList, "Home">;
+  };
+  Maintenance: {
     navigation: NativeStackNavigationProp<RootStackParamList, "Home">;
   };
 };

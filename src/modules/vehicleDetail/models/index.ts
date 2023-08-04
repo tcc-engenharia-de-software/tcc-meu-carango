@@ -1,7 +1,10 @@
-import { RootStackParamList } from "src/shared";
+import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 
 export const useVehicleDetailModel = ({
   navigation,
 }: RootStackParamList["VehicleDetail"]) => {
-  return {};
+  const handleRedirectToMaintenance = () =>
+    navigation.navigate(SCREEN_NAMES.Maintenance as never);
+
+  return { handleRedirectToMaintenance };
 };

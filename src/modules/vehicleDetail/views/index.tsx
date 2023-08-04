@@ -5,7 +5,9 @@ import { UseVehicleDetailModel } from "../models/types";
 import { ExpenseCard } from "../../../components/ExpenseCard";
 import { styles } from "./styles";
 
-export const VehicleDetailView: FC<UseVehicleDetailModel> = () => {
+export const VehicleDetailView: FC<UseVehicleDetailModel> = ({
+  handleRedirectToMaintence,
+}) => {
   const expenseCards = [
     {
       id: 1,
@@ -16,6 +18,7 @@ export const VehicleDetailView: FC<UseVehicleDetailModel> = () => {
       id: 2,
       title: "Manutenção",
       description: "Adicionar um manutenção feita",
+      action: handleRedirectToMaintence,
     },
     {
       id: 3,
@@ -57,7 +60,7 @@ export const VehicleDetailView: FC<UseVehicleDetailModel> = () => {
             <ExpenseCard
               title={item.title}
               description={item.description}
-              action={() => {}}
+              action={item.action}
             />
           )}
         />
