@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
+
 import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 import { supabase } from "../../../services";
 
-export const useHomeModel = ({
-  navigation,
-}: RootStackParamList["VehicleDetail"]) => {
+import { retrieveRecenteExpense } from "../services/retrieveRecenteExpense";
+import { ExpenseNormalized } from "../services/retrieveRecenteExpense/types";
+
+export const useHomeModel = ({ navigation }: RootStackParamList["Home"]) => {
   const [vehicleData, setVehicleData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [recentExpenses, setRecentExpenses] = useState<ExpenseNormalized[]>([]);
 
-  const redirectToVehicleForm = () =>
+  const redirectToVehicleForm = () => {
     navigation.navigate(SCREEN_NAMES.vehicle as never);
+  };
 
   const redirectToVehicleDetail = () =>
     navigation.navigate(SCREEN_NAMES.vehicleDetail as never);
@@ -27,11 +31,17 @@ export const useHomeModel = ({
 
     loadData();
   }, []);
+  useEffect(function getExpense() {
+    // ! TODO: should implement how to get vehicle ids
+    const fakeIDs: string[] = [];
+    retrieveRecenteExpense(fakeIDs).then(setRecentExpenses);
+  }, []);
 
   return {
     redirectToVehicleForm,
     vehicleData,
     isLoading,
     redirectToVehicleDetail,
+    recentExpenses,
   };
 };

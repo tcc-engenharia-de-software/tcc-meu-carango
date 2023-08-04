@@ -1,40 +1,39 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { Row, Rows, Table } from "react-native-table-component";
 
-import { Header } from "src/components/Header";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { styles } from "./styles";
 import { CardVehicle } from "src/components/CardVehicle";
-import { Table, Row, Rows } from "react-native-table-component";
+import { Header } from "src/components/Header";
 
-type HomeTypes = {
-  redirectToVehicleForm: Function;
-  redirectToVehicleDetail: Function;
-  vehicleData: any[];
-};
-
-const bills = [
-  ["gvx9549", "Combustível", "22/12/2023", "R$ 100,00"],
-  ["gvx9549", "Combustível", "22/12/2023", "R$ 100,00"],
-  ["gvx9549", "Combustível", "22/12/2023", "R$ 100,00"],
-  ["gvx9549", "Combustível", "22/12/2023", "R$ 100,00"],
-];
+import { styles } from "./styles";
+import { HomeViewProps } from "./types";
 
 const LENGTH_OF_VOID_ARRAY = 0;
+const FRACTIONAL_DIGITS_TO_MONEY = 2;
 
-export const HomeView: FC<HomeTypes> = ({
+export const HomeView: FC<HomeViewProps> = ({
   redirectToVehicleForm,
   vehicleData,
   redirectToVehicleDetail,
+  recentExpenses,
 }) => {
   const handleNewVehicle = () => {
     redirectToVehicleForm();
   };
 
-  const currentBills =
-    bills.length > LENGTH_OF_VOID_ARRAY
-      ? bills
-      : [["Ainda não há dados para serem exibidos"]];
+  const currentBills = useMemo(() => {
+    if (recentExpenses.length > LENGTH_OF_VOID_ARRAY) {
+      return recentExpenses.map((expense) => [
+        expense.plate,
+        expense.type,
+        expense.date,
+        `R$ ${expense.value.toFixed(FRACTIONAL_DIGITS_TO_MONEY)}`,
+      ]);
+    }
+
+    return [["Ainda não há dados para serem exibidos"]];
+  }, [recentExpenses]);
 
   return (
     <View className={styles.home.container}>
@@ -48,7 +47,7 @@ export const HomeView: FC<HomeTypes> = ({
       </View>
       <FlatList
         data={vehicleData}
-        renderItem={({ item }) => (
+        renderItem={({ item }: any) => (
           <CardVehicle
             clickCard={redirectToVehicleDetail}
             idVehicle={item.id}
@@ -57,27 +56,24 @@ export const HomeView: FC<HomeTypes> = ({
             plate={item.plate}
           />
         )}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item: any) => item.id}
         showsHorizontalScrollIndicator={false}
         horizontal
       />
 
-      <Text className="text-[24px] mt-6 text-gray-400">Despesas recentes</Text>
+      <Text className={styles.home.recentExpenses.title}>
+        Despesas recentes
+      </Text>
 
-      <Table style={{ marginTop: 16 }}>
+      <Table style={styles.home.recentExpenses.table.container}>
         <Row
+          style={styles.home.recentExpenses.table.header}
           data={["Placa", "Tipo de gasto", "Data", "valor"]}
-          style={{
-            backgroundColor: "#fff",
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
-            padding: 8,
-          }}
         />
         <Rows
+          style={styles.home.recentExpenses.table.rows.self}
+          textStyle={styles.home.recentExpenses.table.rows.textStyle}
           data={currentBills}
-          style={{ backgroundColor: "#F5F5F5" }}
-          textStyle={{ padding: 8 }}
         />
       </Table>
     </View>

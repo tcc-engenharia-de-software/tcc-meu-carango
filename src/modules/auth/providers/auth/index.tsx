@@ -3,12 +3,13 @@ import {
   PropsWithChildren,
   createContext,
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from "react";
 
-import { AuthContextData, AuthState, LoginCredentials } from "./types";
 import { supabase } from "../../../../services";
+import { AuthContextData, AuthState, LoginCredentials } from "./types";
 
 export const AuthContext = createContext({} as AuthContextData);
 
@@ -16,6 +17,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const [authState, setAuthState] = useState<AuthState>({
     isLoggedIn: false,
     user: null,
+    tokenJWT: null,
   });
 
   const updateAuthState = (newAuthState: Partial<AuthState>) => {
@@ -25,17 +27,34 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     }));
   };
 
-  const signIn = useCallback(async (signInData: LoginCredentials) => {
-    const response = await supabase.auth.signInWithPassword(signInData);
-
-    if (response?.error) {
-      throw new Error("Login failed");
+  const updateTokenJWT = useCallback(async () => {
+    if (!authState.isLoggedIn) {
+      return;
     }
 
-    const { user } = response.data;
+    const tokenJWT = await supabase.auth
+      .getSession()
+      .then(({ data }) => data)
+      .then(({ session }) => session?.access_token);
 
-    updateAuthState({ isLoggedIn: true, user });
-  }, []);
+    updateAuthState({ tokenJWT });
+  }, [authState.isLoggedIn]);
+
+  const signIn = useCallback(
+    async (signInData: LoginCredentials) => {
+      const response = await supabase.auth.signInWithPassword(signInData);
+
+      if (response?.error) {
+        throw new Error("Login failed");
+      }
+
+      const { user } = response.data;
+      await updateTokenJWT();
+
+      updateAuthState({ isLoggedIn: true, user });
+    },
+    [updateTokenJWT]
+  );
 
   const signUp = useCallback(async (credentials: LoginCredentials) => {
     const response = await supabase.auth.signUp(credentials);
@@ -75,16 +94,43 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     return null;
   }, []);
 
+  useEffect(function checkIfUserIsLoggedIn() {
+    const checkIfUserIsLoggedInClosure = async () => {
+      const { data, error } = await supabase.auth.getSession();
+
+      if (!error && data?.session) {
+        const { access_token, user } = data.session;
+
+        updateAuthState({
+          isLoggedIn: true,
+          tokenJWT: access_token,
+          user,
+        });
+      }
+    };
+
+    checkIfUserIsLoggedInClosure();
+  }, []);
+
   const authContextValue = useMemo(
     () => ({
       isLoggedIn: authState.isLoggedIn,
       user: authState.user,
+      tokenJWT: authState.tokenJWT,
       signIn,
       signUp,
       signOut,
       getUser,
     }),
-    [authState.isLoggedIn, authState.user, getUser, signIn, signOut, signUp]
+    [
+      authState.isLoggedIn,
+      authState.tokenJWT,
+      authState.user,
+      getUser,
+      signIn,
+      signOut,
+      signUp,
+    ]
   );
 
   return (

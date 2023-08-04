@@ -3,6 +3,7 @@ import { User } from "@supabase/supabase-js";
 export type AuthContextData = {
   isLoggedIn: boolean;
   user: User | null;
+  tokenJWT: string | null;
   signIn(credentials: LoginCredentials): Promise<void>;
   signUp(credentials: LoginCredentials): Promise<void>;
   signOut(): Promise<void>;
@@ -14,4 +15,7 @@ export type LoginCredentials = {
   password: string;
 };
 
-export type AuthState = Pick<AuthContextData, "isLoggedIn" | "user">;
+export type AuthState = Pick<
+  AuthContextData,
+  "isLoggedIn" | "user" | "tokenJWT"
+>;
