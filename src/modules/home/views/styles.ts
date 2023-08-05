@@ -1,6 +1,6 @@
 export const styles = {
   home: {
-    container: "ml-8 mr-8",
+    container: "mx-8",
     recentExpenses: {
       title: "text-[24px] mt-6 text-gray-400",
       table: {
