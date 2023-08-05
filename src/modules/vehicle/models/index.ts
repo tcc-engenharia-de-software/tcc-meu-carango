@@ -24,7 +24,9 @@ const initialFormValues: vehicleFormData = {
   plate: "",
   year: "",
 };
-export const useVehicleModel = ({ navigation }: RootStackParamList["Home"]) => {
+export const useVehicleModel = ({
+  navigation,
+}: RootStackParamList["Vehicle"]) => {
   const {
     control: formControl,
     formState,
