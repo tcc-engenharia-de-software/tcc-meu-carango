@@ -7,10 +7,20 @@ const MIN_VALUE_TO_CURRENT_KILOMETER = 0;
 const MIN_VALUE_TO_LITERS = 0.01;
 
 export const formSchema = z.object({
-  date_time: z.date().min(new Date()),
-  current_kilometer: z.number().min(MIN_VALUE_TO_CURRENT_KILOMETER),
-  fuel_type: z.enum(FUEL_TYPES),
-  liters: z.number().min(MIN_VALUE_TO_LITERS),
+  date_time: z.date({ description: "Data inválida" }),
+  current_kilometer: z
+    .number()
+    .min(
+      MIN_VALUE_TO_CURRENT_KILOMETER,
+      `Valor deve ser maior que ${MIN_VALUE_TO_CURRENT_KILOMETER}`
+    ),
+  fuel_type: z.string(),
+  liters: z
+    .number()
+    .min(
+      MIN_VALUE_TO_LITERS,
+      `Valor deve ser maior que ${MIN_VALUE_TO_LITERS}`
+    ),
   price_per_liter: z.number(),
   payment_method: z.enum(PAYMENT_METHODS),
   additional_data: z.string().optional(),

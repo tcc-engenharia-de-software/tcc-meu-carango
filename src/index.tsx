@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
@@ -14,9 +14,14 @@ import { SCREEN_NAMES } from "./shared";
 
 const Stack = createNativeStackNavigator();
 
+const overrideNavigationTheme = {
+  colors: { ...DefaultTheme.colors, background: "#fff" },
+  dark: DefaultTheme.dark,
+};
+
 const hideHeader = { headerShown: false };
 export const EntryPoint = () => (
-  <NavigationContainer>
+  <NavigationContainer theme={overrideNavigationTheme}>
     {/* <Stack.Navigator initialRouteName={SCREEN_NAMES.Home}> */}
     <Stack.Navigator initialRouteName={SCREEN_NAMES.fuel.register}>
       <Stack.Screen

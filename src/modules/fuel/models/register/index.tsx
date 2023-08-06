@@ -7,6 +7,7 @@ import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 
 import { formSchema } from "./formSchema";
 import { FuelRegisterFormData } from "./types";
+import { useState } from "react";
 
 const initialFormValues: Partial<FuelRegisterFormData> = {
   date_time: undefined,
@@ -29,6 +30,9 @@ export const useFuelRegisterModel = ({
       resolver: zodResolver(formSchema),
     });
 
+  const [shouldShowDatePickerFuelRegister, setShowDateFuelRegister] =
+    useState(false);
+
   const isButtonSubmitDisabled = !formState.isValid || formState.isSubmitting;
   const isLoading = formState.isSubmitting;
 
@@ -48,12 +52,6 @@ export const useFuelRegisterModel = ({
     }
   });
 
-  const handleInputChange = (cb: (text: string) => void) => {
-    return (currentText: string) => {
-      cb(currentText);
-    };
-  };
-
   const getError = (field: keyof FuelRegisterFormData) => {
     return formState.errors[field]?.message;
   };
@@ -63,6 +61,7 @@ export const useFuelRegisterModel = ({
       control,
       isLoading,
       isButtonSubmitDisabled,
+      shouldShowDatePickerFuelRegister,
       errors: {
         date_time: getError("date_time"),
         current_kilometer: getError("current_kilometer"),
@@ -76,7 +75,10 @@ export const useFuelRegisterModel = ({
     },
     handlers: {
       submit: onSubmit,
-      InputChange: handleInputChange,
+      datePickerFuelRegister: {
+        show: () => setShowDateFuelRegister(true),
+        hide: () => setShowDateFuelRegister(false),
+      },
     },
   };
 };

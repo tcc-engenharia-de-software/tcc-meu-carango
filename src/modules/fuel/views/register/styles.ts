@@ -4,6 +4,8 @@ export const styles = {
   form: {
     inputWrapper: "mb-4",
     input: "border-black border-2 text-xl w-full px-4 py-2",
+    inputMultiline:
+      "border-black border-2 text-xl w-full px-4 py-2 inline-block align-baseline",
     inputPicker: "mb-4 border-2",
     inputError: "border-red-500",
     inputErrorText: "text-red-500",

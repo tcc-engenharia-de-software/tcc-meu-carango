@@ -1,12 +1,19 @@
+import RNDateTimePicker from "@react-native-community/datetimepicker";
+import { Picker } from "@react-native-picker/picker";
 import { FC } from "react";
 import { Controller as FormController } from "react-hook-form";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+import {
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 import { FUEL_TYPES, PAYMENT_METHODS } from "../../models/register/formSchema";
 import { UseFuelRegisterModel } from "../../models/register/types";
 import { styles } from "./styles";
-import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 const additionalDataPlaceholder = `Informações adicionais 
 
@@ -25,24 +32,60 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
   ].join(" ");
 
   const getStyleIfHasError = (message?: string) => {
-    return message ? styles.form.inputError : "";
+    return message ? ` ${styles.form.inputError}` : "";
   };
 
   return (
-    <View className={styles.container}>
+    <ScrollView className={styles.container}>
       <Text className={styles.title}>Abastecimento</Text>
 
-      {/* do it works */}
-      <RNDateTimePicker
-        value={new Date()}
-        maximumDate={new Date()}
-        mode="date"
-        display="default"
-        testID="date-picker-fuel-register"
-        onChange={(e) => {
-          console.log(e.nativeEvent.timestamp);
-        }}
-      />
+      <View className={styles.form.inputWrapper}>
+        <FormController
+          control={formState.control}
+          name="date_time"
+          render={({ field: { value, onChange } }) => (
+            <>
+              <Pressable onPress={handlers.datePickerFuelRegister.show}>
+                <TextInput
+                  className={
+                    styles.form.input +
+                    getStyleIfHasError(formState.errors.date_time) +
+                    " text-black"
+                  }
+                  placeholder="Data e hora"
+                  testID="date-time-input"
+                  value={value as unknown as string}
+                  editable={false}
+                />
+              </Pressable>
+
+              {formState.shouldShowDatePickerFuelRegister ? (
+                <RNDateTimePicker
+                  value={new Date()}
+                  maximumDate={new Date()}
+                  mode="date"
+                  display="default"
+                  testID="date-picker-fuel-register"
+                  onChange={(_, selectedDate) => {
+                    /**
+                     * ! IMPORTANT NOTE:
+                     * ! should close the date picker before set the value,
+                     * ! to avoid open twice.
+                     */
+                    handlers.datePickerFuelRegister.hide();
+
+                    if (!selectedDate) {
+                      return;
+                    }
+
+                    onChange(selectedDate.toUTCString());
+                  }}
+                />
+              ) : null}
+            </>
+          )}
+        />
+      </View>
 
       <View className={styles.form.inputWrapper}>
         <FormController
@@ -56,8 +99,9 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
               placeholder="Quilometragem atual do veículo"
               testID="current-kilometer-input"
               onBlur={onBlur}
-              onChangeText={handlers.InputChange(onChange)}
-              value={value ? String(value) : ""}
+              onChangeText={onChange}
+              value={value as unknown as string}
+              keyboardType="numeric"
             />
           )}
           name="current_kilometer"
@@ -74,18 +118,16 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
           control={formState.control}
           name="fuel_type"
           render={({ field: { value, onChange } }) => (
-            <Picker
-              selectedValue={value}
-              onValueChange={handlers.InputChange(onChange)}>
+            <Picker selectedValue={value} onValueChange={onChange}>
               {FUEL_TYPES.map((name) => (
                 <Picker.Item key={name} label={name} value={name} />
               ))}
             </Picker>
           )}
         />
-        {formState.errors.current_kilometer ? (
+        {formState.errors.fuel_type ? (
           <Text className={styles.form.inputErrorText}>
-            {formState.errors.current_kilometer}
+            {formState.errors.fuel_type}
           </Text>
         ) : null}
       </View>
@@ -102,8 +144,9 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
               placeholder="Total de litros abastecido. Ex.: 16.29"
               testID="total-liters-input"
               onBlur={onBlur}
-              onChangeText={handlers.InputChange(onChange)}
-              value={value ? String(value) : ""}
+              onChangeText={onChange}
+              value={value as unknown as string}
+              keyboardType="numeric"
             />
           )}
           name="liters"
@@ -127,8 +170,9 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
               placeholder="Preço por litro. Ex.: R$ 5.29"
               testID="price-per-liters-input"
               onBlur={onBlur}
-              onChangeText={handlers.InputChange(onChange)}
-              value={value ? String(value) : ""}
+              onChangeText={onChange}
+              value={value as unknown as string}
+              keyboardType="numeric"
             />
           )}
           name="price_per_liter"
@@ -145,9 +189,7 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
           control={formState.control}
           name="payment_method"
           render={({ field: { value, onChange } }) => (
-            <Picker
-              selectedValue={value}
-              onValueChange={handlers.InputChange(onChange)}>
+            <Picker selectedValue={value} onValueChange={onChange}>
               {PAYMENT_METHODS.map((name) => (
                 <Picker.Item key={name} label={name} value={name} />
               ))}
@@ -166,15 +208,16 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
           control={formState.control}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              className={
-                styles.form.input +
-                getStyleIfHasError(formState.errors.current_kilometer)
-              }
+              // className={
+              //   styles.form.input +
+              //   getStyleIfHasError(formState.errors.additional_data)
+              // }
+              className={styles.form.inputMultiline}
               placeholder={additionalDataPlaceholder}
               testID="additional-data-input"
               onBlur={onBlur}
-              onChangeText={handlers.InputChange(onChange)}
-              value={value ? String(value) : ""}
+              onChangeText={onChange}
+              value={value}
               multiline
             />
           )}
@@ -196,6 +239,6 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
           {formState.isLoading ? "Carregando..." : "Cadastrar"}
         </Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
