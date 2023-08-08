@@ -22,7 +22,10 @@ export const CardVehicle: React.FC<CardVehicleProps> = ({
 }) => {
   const handleVehicleDetails = async () => {
     try {
-      await AsyncStorage.setItem("@MeuCarango:vehiclekey", idVehicle + "");
+      await AsyncStorage.setItem(
+        "@MeuCarango:vehiclekeyAsyncStorage",
+        idVehicle + ""
+      );
       clickCard();
     } catch {
       Alert.alert("Erro ao salvar o veículo");

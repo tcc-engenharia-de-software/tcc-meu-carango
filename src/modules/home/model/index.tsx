@@ -12,11 +12,11 @@ export const useHomeModel = ({ navigation }: RootStackParamList["Home"]) => {
   const [recentExpenses, setRecentExpenses] = useState<ExpenseNormalized[]>([]);
 
   const redirectToVehicleForm = () => {
-    navigation.navigate(SCREEN_NAMES.vehicle as never);
+    navigation.navigate(SCREEN_NAMES.Vehicle as never);
   };
 
   const redirectToVehicleDetail = () =>
-    navigation.navigate(SCREEN_NAMES.vehicleDetail as never);
+    navigation.navigate(SCREEN_NAMES.VehicleDetail as never);
 
   useEffect(() => {
     const loadData = async () => {

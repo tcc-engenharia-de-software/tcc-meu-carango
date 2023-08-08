@@ -6,7 +6,7 @@ import { ExpenseCard } from "../../../components/ExpenseCard";
 import { styles } from "./styles";
 
 export const VehicleDetailView: FC<UseVehicleDetailModel> = ({
-  handleRedirectToMaintence,
+  handleRedirectToMaintenance,
 }) => {
   const expenseCards = [
     {
@@ -18,7 +18,7 @@ export const VehicleDetailView: FC<UseVehicleDetailModel> = ({
       id: 2,
       title: "Manutenção",
       description: "Adicionar um manutenção feita",
-      action: handleRedirectToMaintence,
+      action: handleRedirectToMaintenance,
     },
     {
       id: 3,
