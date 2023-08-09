@@ -21,6 +21,12 @@ export const MaintenanceView: FC<UseMaintenanceModel> = ({
   onSubmit,
   handlers,
   shouldShowDatePickerFuelRegister,
+  dateError,
+  detailsError,
+  initialKilometerError,
+  nextKilometerMaintenanceError,
+  titleError,
+  valueError,
 }) => {
   const buttonSubmitStyle = [
     styles.form.submitButton,
@@ -46,11 +52,9 @@ export const MaintenanceView: FC<UseMaintenanceModel> = ({
             />
           )}
         />
-        {/* {manufacturerError ? (
-          <Text className={styles.form.inputErrorText}>
-            {manufacturerError}
-          </Text>
-        ) : null} */}
+        {titleError ? (
+          <Text className={styles.form.inputErrorText}>{titleError}</Text>
+        ) : null}
       </View>
       <View className={styles.form.inputWrapper}>
         <FormController
@@ -68,9 +72,9 @@ export const MaintenanceView: FC<UseMaintenanceModel> = ({
           )}
         />
       </View>
-      {/* {modelError ? (
-        <Text className={styles.form.inputErrorText}>{modelError}</Text>
-      ) : null} */}
+      {valueError ? (
+        <Text className={styles.form.inputErrorText}>{valueError}</Text>
+      ) : null}
       <View className={styles.form.inputDatePicker}>
         <FormController
           control={formControl}
@@ -113,9 +117,9 @@ export const MaintenanceView: FC<UseMaintenanceModel> = ({
           )}
         />
       </View>
-      {/* {yearError ? (
-        <Text className={styles.form.inputErrorText}>{yearError}</Text>
-      ) : null} */}
+      {dateError ? (
+        <Text className={styles.form.inputErrorText}>{dateError}</Text>
+      ) : null}
 
       <View className={styles.form.inputWrapper}>
         <FormController
@@ -132,9 +136,11 @@ export const MaintenanceView: FC<UseMaintenanceModel> = ({
             />
           )}
         />
-        {/* {plateError ? (
-          <Text className={styles.form.inputErrorText}>{plateError}</Text>
-        ) : null} */}
+        {initialKilometerError ? (
+          <Text className={styles.form.inputErrorText}>
+            {initialKilometerError}
+          </Text>
+        ) : null}
       </View>
       <View className={styles.form.inputWrapper}>
         <FormController
@@ -151,9 +157,11 @@ export const MaintenanceView: FC<UseMaintenanceModel> = ({
             />
           )}
         />
-        {/* {plateError ? (
-          <Text className={styles.form.inputErrorText}>{plateError}</Text>
-        ) : null} */}
+        {nextKilometerMaintenanceError ? (
+          <Text className={styles.form.inputErrorText}>
+            {nextKilometerMaintenanceError}
+          </Text>
+        ) : null}
       </View>
       {/* <View className={styles.form.inputPicker}>
         <FormController
@@ -181,11 +189,9 @@ export const MaintenanceView: FC<UseMaintenanceModel> = ({
           )}
         />
       </View>
-      {/* {initialKilometerError ? (
-        <Text className={styles.form.inputErrorText}>
-          {initialKilometerError}
-        </Text>
-      ) : null} */}
+      {detailsError ? (
+        <Text className={styles.form.inputErrorText}>{detailsError}</Text>
+      ) : null}
 
       <TouchableOpacity
         className={buttonSubmitStyle}

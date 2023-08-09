@@ -10,11 +10,11 @@ import { useState } from "react";
 const initialFormValues: maintenanceFormData = {
   Date: "",
   details: "",
-  initialKilometer: 0,
+  initialKilometer: "0",
   nextDateMaintenance: new Date(),
-  nextKilometerMaintenance: 0,
+  nextKilometerMaintenance: "0",
   title: "",
-  value: 0,
+  value: "0",
   deleted: false,
 };
 export const useMaintenanceModel = ({
@@ -37,15 +37,18 @@ export const useMaintenanceModel = ({
 
   const isButtonSubmitDisabled = !formState.isValid || formState.isSubmitting;
   const isLoading = formState.isSubmitting;
-  // const plateError = formState.errors.plate?.message;
-  // const fuelTypeError = formState.errors.fuelType?.message;
-  // const initialKilometerError = formState.errors.initialKilometer?.message;
-  // const modelError = formState.errors.model?.message;
-  // const manufacturerError = formState.errors.manufacturer?.message;
-  // const yearError = formState.errors.year?.message;
-  // const colorError = formState.errors.color?.message;
+  const dateError = formState.errors.Date?.message;
+  const detailsError = formState.errors.details?.message;
+  const initialKilometerError = formState.errors.initialKilometer?.message;
+  const nextDateMaintenanceError =
+    formState.errors.nextDateMaintenance?.message;
+  const nextKilometerMaintenanceError =
+    formState.errors.nextKilometerMaintenance?.message;
+  const titleError = formState.errors.title?.message;
+  const valueError = formState.errors.value?.message;
 
   const onSubmit = handleSubmit(async (data: maintenanceFormData) => {
+    console.log("chegooooooooooooooooooooooooooooooooooooooou");
     console.log({ data });
     if (isLoading || isButtonSubmitDisabled) return;
 
@@ -73,13 +76,13 @@ export const useMaintenanceModel = ({
     isButtonSubmitDisabled,
     onSubmit,
     handleInputChange,
-    // plateError,
-    // fuelTypeError,
-    // initialKilometerError,
-    // modelError,
-    // manufacturerError,
-    // yearError,
-    // colorError,
+    dateError,
+    detailsError,
+    initialKilometerError,
+    nextDateMaintenanceError,
+    nextKilometerMaintenanceError,
+    titleError,
+    valueError,
     setValue,
     shouldShowDatePickerFuelRegister,
     handlers: {
