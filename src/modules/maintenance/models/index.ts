@@ -5,9 +5,10 @@ import { RootStackParamList } from "src/shared";
 import { supabase } from "../../../services";
 import type { maintenanceFormData } from "./types";
 import { maintenanceFormSchema } from "./maintenanceFormSchema";
+import { useState } from "react";
 
 const initialFormValues: maintenanceFormData = {
-  Date: new Date(),
+  Date: "",
   details: "",
   initialKilometer: 0,
   nextDateMaintenance: new Date(),
@@ -31,6 +32,9 @@ export const useMaintenanceModel = ({
     resolver: zodResolver(maintenanceFormSchema),
   });
 
+  const [shouldShowDatePickerFuelRegister, setShowDateFuelRegister] =
+    useState(false);
+
   const isButtonSubmitDisabled = !formState.isValid || formState.isSubmitting;
   const isLoading = formState.isSubmitting;
   // const plateError = formState.errors.plate?.message;
@@ -42,6 +46,7 @@ export const useMaintenanceModel = ({
   // const colorError = formState.errors.color?.message;
 
   const onSubmit = handleSubmit(async (data: maintenanceFormData) => {
+    console.log({ data });
     if (isLoading || isButtonSubmitDisabled) return;
 
     const result = await supabase.from("maintenance").insert([data]);
@@ -76,5 +81,13 @@ export const useMaintenanceModel = ({
     // yearError,
     // colorError,
     setValue,
+    shouldShowDatePickerFuelRegister,
+    handlers: {
+      submit: onSubmit,
+      datePickerFuelRegister: {
+        show: () => setShowDateFuelRegister(true),
+        hide: () => setShowDateFuelRegister(false),
+      },
+    },
   };
 };

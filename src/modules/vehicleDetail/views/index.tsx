@@ -33,7 +33,7 @@ export const VehicleDetailView: FC<UseVehicleDetailModel> = ({
   ];
 
   return (
-    <ScrollView className="mx-4">
+    <View className="mx-4">
       <Text className={styles.vehicle.name}>data.name</Text>
       <Text className={styles.vehicle.info.title}>Informações</Text>
       <View>
@@ -51,20 +51,18 @@ export const VehicleDetailView: FC<UseVehicleDetailModel> = ({
           Registro de despesas
         </Text>
       </View>
-      <View className="">
-        <FlatList
-          className="mx-0 px-0"
-          data={expenseCards}
-          numColumns={1}
-          renderItem={({ item }) => (
-            <ExpenseCard
-              title={item.title}
-              description={item.description}
-              action={item.action}
-            />
-          )}
-        />
-      </View>
-    </ScrollView>
+      <FlatList
+        className="mx-0 px-0"
+        data={expenseCards}
+        numColumns={1}
+        renderItem={({ item }) => (
+          <ExpenseCard
+            title={item.title}
+            description={item.description}
+            action={item.action}
+          />
+        )}
+      />
+    </View>
   );
 };
