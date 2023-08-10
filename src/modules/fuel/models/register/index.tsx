@@ -1,60 +1,110 @@
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert } from "react-native";
 
 import { supabase } from "src/services";
 import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 
-import { formSchema } from "./formSchema";
-import { FuelRegisterFormData } from "./types";
-import { useState } from "react";
+import { schemaPerField } from "./formSchema";
+import { FuelFieldsKeys, FuelRegisterFormData } from "./types";
 
-const initialFormValues: Partial<FuelRegisterFormData> = {
-  date_time: undefined,
-  current_kilometer: undefined,
-  fuel_type: undefined,
-  liters: undefined,
-  price_per_liter: undefined,
-  payment_method: undefined,
-  additional_data: undefined,
-  vehicle_id: undefined,
+import { caster } from "./utils";
+
+const initialFormValues: FuelRegisterFormData = {
+  current_kilometer: 0,
+  date_time: new Date(),
+  fuel_type: "Gasolina",
+  liters: 0,
+  payment_method: "Dinheiro",
+  price_per_liter: 100,
+  vehicle_id: "",
+  additional_data: "",
 };
 
 export const useFuelRegisterModel = ({
   navigation,
 }: RootStackParamList["FuelSupply"]) => {
-  const { control, formState, handleSubmit, reset } =
+  const { control, formState, handleSubmit, reset, getValues, getFieldState } =
     useForm<FuelRegisterFormData>({
       defaultValues: initialFormValues,
       mode: "onChange",
-      resolver: zodResolver(formSchema),
     });
 
   const [shouldShowDatePickerFuelRegister, setShowDateFuelRegister] =
     useState(false);
 
-  const isButtonSubmitDisabled = !formState.isValid || formState.isSubmitting;
+  const getError = useCallback(
+    (field: FuelFieldsKeys) => {
+      const fieldData = getValues(field);
+
+      if (!fieldData && !getFieldState(field).isDirty) {
+        return;
+      }
+
+      const parsedData = caster[field](fieldData as string, true);
+      const result = schemaPerField[field].safeParse(parsedData);
+
+      if (result.success) {
+        return;
+      }
+
+      const [{ message }] = result.error.issues;
+
+      return message;
+    },
+    [getFieldState, getValues]
+  );
+
+  const hasSomeError = useMemo(
+    () =>
+      Object.keys(schemaPerField).some(
+        (field) => !!getError(field as FuelFieldsKeys)
+      ),
+    [getError]
+  );
+
+  const isButtonSubmitDisabled =
+    formState.isSubmitting || hasSomeError || !formState.isDirty;
+
   const isLoading = formState.isSubmitting;
 
   const onSubmit = handleSubmit(async (data: FuelRegisterFormData) => {
     if (isLoading || isButtonSubmitDisabled) return;
 
-    try {
-      await supabase.from("fuel_supply").insert(data);
+    const castedData = Object.entries(data).reduce(
+      (acc, [key, value]) => ({
+        ...acc,
+        [key]: caster[key as FuelFieldsKeys](value as string, true),
+      }),
+      {}
+    );
 
-      reset(initialFormValues);
-      navigation.navigate(SCREEN_NAMES.Home as never);
-    } catch {
+    const { error } = await supabase.from("fuel_supply").insert(castedData);
+
+    if (error) {
       Alert.alert(
         "Ops! Ocorreu um erro ao cadastrar o abastecimento.",
-        "Verifique seus dados e tente novamente!"
+        "Verifique seus dados e tente novamente! " + error.message
       );
+      return;
     }
+
+    reset(initialFormValues);
+    navigation.navigate(SCREEN_NAMES.Home as never);
   });
 
-  const getError = (field: keyof FuelRegisterFormData) => {
-    return formState.errors[field]?.message;
-  };
+  const onChange = useCallback(
+    (
+      field: FuelFieldsKeys,
+      value: string,
+      cb: (value: FuelRegisterFormData[FuelFieldsKeys]) => void
+    ) => {
+      const parsedValue = caster[field](value);
+
+      cb(String(parsedValue));
+    },
+    []
+  );
 
   return {
     formState: {
@@ -75,6 +125,7 @@ export const useFuelRegisterModel = ({
     },
     handlers: {
       submit: onSubmit,
+      change: onChange,
       datePickerFuelRegister: {
         show: () => setShowDateFuelRegister(true),
         hide: () => setShowDateFuelRegister(false),

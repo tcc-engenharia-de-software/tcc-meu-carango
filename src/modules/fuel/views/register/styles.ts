@@ -1,6 +1,6 @@
 export const styles = {
-  container: "bg-white flex flex-1 px-4 pt-14",
-  title: "text-6xl mb-8",
+  container: "bg-white flex flex-1 px-4 pt-14 h-full",
+  title: "text-5xl mb-8",
   form: {
     inputWrapper: "mb-4",
     input: "border-black border-2 text-xl w-full px-4 py-2",

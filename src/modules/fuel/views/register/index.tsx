@@ -15,10 +15,7 @@ import { FUEL_TYPES, PAYMENT_METHODS } from "../../models/register/formSchema";
 import { UseFuelRegisterModel } from "../../models/register/types";
 import { styles } from "./styles";
 
-const additionalDataPlaceholder = `Informações adicionais 
-
-Exemplo: Número de notas fiscais, recibos emitidos, desempenho do veículo após o abastecimento ou qualquer coisa que considere importante.
-`;
+const FIRST_ITEM_INDEX = 1;
 
 export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
   formState,
@@ -43,7 +40,7 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
         <FormController
           control={formState.control}
           name="date_time"
-          render={({ field: { value, onChange } }) => (
+          render={({ field: { name, value, onChange } }) => (
             <>
               <Pressable onPress={handlers.datePickerFuelRegister.show}>
                 <TextInput
@@ -78,7 +75,7 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
                       return;
                     }
 
-                    onChange(selectedDate.toUTCString());
+                    handlers.change(name, selectedDate.toISOString(), onChange);
                   }}
                 />
               ) : null}
@@ -90,7 +87,7 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
       <View className={styles.form.inputWrapper}>
         <FormController
           control={formState.control}
-          render={({ field: { onChange, onBlur, value } }) => (
+          render={({ field: { onChange, onBlur, value, name } }) => (
             <TextInput
               className={
                 styles.form.input +
@@ -99,7 +96,7 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
               placeholder="Quilometragem atual do veículo"
               testID="current-kilometer-input"
               onBlur={onBlur}
-              onChangeText={onChange}
+              onChangeText={(text) => handlers.change(name, text, onChange)}
               value={value as unknown as string}
               keyboardType="numeric"
             />
@@ -118,7 +115,11 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
           control={formState.control}
           name="fuel_type"
           render={({ field: { value, onChange } }) => (
-            <Picker selectedValue={value} onValueChange={onChange}>
+            <Picker
+              selectedValue={value ?? FUEL_TYPES.at(FIRST_ITEM_INDEX)}
+              onValueChange={(itemValue) =>
+                handlers.change("fuel_type", itemValue, onChange)
+              }>
               {FUEL_TYPES.map((name) => (
                 <Picker.Item key={name} label={name} value={name} />
               ))}
@@ -135,7 +136,7 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
       <View className={styles.form.inputWrapper}>
         <FormController
           control={formState.control}
-          render={({ field: { onChange, onBlur, value } }) => (
+          render={({ field: { onChange, onBlur, value, name } }) => (
             <TextInput
               className={
                 styles.form.input +
@@ -144,9 +145,10 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
               placeholder="Total de litros abastecido. Ex.: 16.29"
               testID="total-liters-input"
               onBlur={onBlur}
-              onChangeText={onChange}
+              onChangeText={(text) => handlers.change(name, text, onChange)}
               value={value as unknown as string}
-              keyboardType="numeric"
+              keyboardType="decimal-pad"
+              maxLength={8}
             />
           )}
           name="liters"
@@ -161,7 +163,7 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
       <View className={styles.form.inputWrapper}>
         <FormController
           control={formState.control}
-          render={({ field: { onChange, onBlur, value } }) => (
+          render={({ field: { onChange, onBlur, value, name } }) => (
             <TextInput
               className={
                 styles.form.input +
@@ -170,9 +172,9 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
               placeholder="Preço por litro. Ex.: R$ 5.29"
               testID="price-per-liters-input"
               onBlur={onBlur}
-              onChangeText={onChange}
+              onChangeText={(text) => handlers.change(name, text, onChange)}
               value={value as unknown as string}
-              keyboardType="numeric"
+              keyboardType="decimal-pad"
             />
           )}
           name="price_per_liter"
@@ -189,7 +191,9 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
           control={formState.control}
           name="payment_method"
           render={({ field: { value, onChange } }) => (
-            <Picker selectedValue={value} onValueChange={onChange}>
+            <Picker
+              selectedValue={value ?? PAYMENT_METHODS.at(FIRST_ITEM_INDEX)}
+              onValueChange={onChange}>
               {PAYMENT_METHODS.map((name) => (
                 <Picker.Item key={name} label={name} value={name} />
               ))}
@@ -206,17 +210,15 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
       <View className={styles.form.inputWrapper}>
         <FormController
           control={formState.control}
-          render={({ field: { onChange, onBlur, value } }) => (
+          render={({ field: { onChange, onBlur, value, name } }) => (
             <TextInput
-              // className={
-              //   styles.form.input +
-              //   getStyleIfHasError(formState.errors.additional_data)
-              // }
-              className={styles.form.inputMultiline}
-              placeholder={additionalDataPlaceholder}
+              className={
+                styles.form.input + getStyleIfHasError(formState.errors[name])
+              }
+              placeholder="Dados adicionais"
               testID="additional-data-input"
               onBlur={onBlur}
-              onChangeText={onChange}
+              onChangeText={(text) => handlers.change(name, text, onChange)}
               value={value}
               multiline
             />

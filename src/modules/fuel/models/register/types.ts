@@ -12,3 +12,5 @@ export type FuelRegisterFormData = {
   additional_data?: string;
   vehicle_id: string;
 };
+
+export type FuelFieldsKeys = keyof FuelRegisterFormData;
