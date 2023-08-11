@@ -22,8 +22,8 @@ export const vehicleFormSchema = z.object({
     .regex(/^[A-Z]{3}\d{4}$|^[A-Z]{3}\d[A-Z]\d{2}$/i)
     .max(MAX_LENGTH_PLATE)
     .transform((value) => value.toUpperCase().trim()),
-  fuelType: z.array(z.string().transform((value) => value.trim())),
-  initialKilometer: z
+  fuel_type: z.string().transform((value) => value.trim()),
+  initial_kilometer: z
     .string()
     .min(MIN_INITIAL_KILOMETER)
     .transform((value) => value.trim()),

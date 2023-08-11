@@ -12,7 +12,7 @@ export const VehicleView: FC<UseVehicleModel> = ({
   formControl,
   isButtonSubmitDisabled,
   handleInputChange,
-  fuelTypeError,
+  fuel_typeError,
   initialKilometerError,
   manufacturerError,
   modelError,
@@ -114,9 +114,9 @@ export const VehicleView: FC<UseVehicleModel> = ({
       <View className={styles.form.inputPicker}>
         <FormController
           control={formControl}
-          name="fuelType"
-          render={({ field: { value } }) => (
-            <Picker>
+          name="fuel_type"
+          render={({ field: { onChange, value } }) => (
+            <Picker onValueChange={onChange} selectedValue={value}>
               <Picker.Item label="Gasolina" value="gas" />
               <Picker.Item label="Diesel" value="die" />
               <Picker.Item label="Etanol" value="eta" />
@@ -124,8 +124,8 @@ export const VehicleView: FC<UseVehicleModel> = ({
           )}
         />
       </View>
-      {fuelTypeError ? (
-        <Text className={styles.form.inputErrorText}>{fuelTypeError}</Text>
+      {fuel_typeError ? (
+        <Text className={styles.form.inputErrorText}>{fuel_typeError}</Text>
       ) : null}
       <View className={styles.form.inputWrapper}>
         <FormController
@@ -133,14 +133,14 @@ export const VehicleView: FC<UseVehicleModel> = ({
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               placeholder="Quilometragem atual"
-              testID="initialKilometer"
+              testID="initial_kilometer"
               onBlur={onBlur}
               onChangeText={handleInputChange(onChange)}
               keyboardType="numeric"
               value={value}
             />
           )}
-          name="initialKilometer"
+          name="initial_kilometer"
         />
       </View>
       {initialKilometerError ? (

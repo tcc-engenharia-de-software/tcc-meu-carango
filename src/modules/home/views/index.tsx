@@ -51,7 +51,7 @@ export const HomeView: FC<HomeViewProps> = ({
           <CardVehicle
             clickCard={redirectToVehicleDetail}
             idVehicle={item.id}
-            initialKilometer={item.initialKilometer}
+            initial_kilometer={item.initial_kilometer}
             name={item.model}
             plate={item.plate}
           />

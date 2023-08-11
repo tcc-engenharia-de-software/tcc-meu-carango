@@ -2,7 +2,7 @@ import { configurations } from "src/shared";
 import { expenseQuery } from "./queries";
 import { ExpenseNormalized, ExpenseResponse } from "./types";
 
-const isDisabled = true;
+const isDisabled = false;
 
 export const retrieveRecenteExpense = async (
   vehiclesIds: string[]
@@ -15,13 +15,15 @@ export const retrieveRecenteExpense = async (
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${configurations.SUPABASE_ANON_KEY}`,
+      /*  
+        ! Had a vulnerability with the apikey, because user can see another user's
+        ! data if he pass car id of another user
+      */
+      apikey: configurations.SUPABASE_ANON_KEY,
     },
     body: JSON.stringify({
       query: expenseQuery,
-      variables: {
-        vehiclesIds,
-      },
+      variables: { vehiclesIds },
     }),
   })
     .then((r) => r.json())

@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 interface CardVehicleProps {
   name: string;
   plate: string;
-  initialKilometer: string;
+  initial_kilometer: string;
   idVehicle: number;
   clickCard: Function;
 }
@@ -16,7 +16,7 @@ const DEFAULT_INITIAL_KILOMETER = 0;
 export const CardVehicle: React.FC<CardVehicleProps> = ({
   name,
   plate,
-  initialKilometer,
+  initial_kilometer,
   idVehicle,
   clickCard,
 }) => {
@@ -37,7 +37,7 @@ export const CardVehicle: React.FC<CardVehicleProps> = ({
           Placa: {plate.toLocaleUpperCase()}
         </Text>
         <Text className="text-gray-500 mt-1">
-          Km Total: {initialKilometer || DEFAULT_INITIAL_KILOMETER}
+          Km Total: {initial_kilometer || DEFAULT_INITIAL_KILOMETER}
         </Text>
       </View>
     </TouchableOpacity>
