@@ -1,9 +1,10 @@
-CREATE TABLE users (
-  id UUID PRIMARY KEY,
-  email VARCHAR(255) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL,
-  isActive BOOLEAN NOT NULL DEFAULT TRUE
-);
+-- ! depreciated: should be used auth provided by supabase
+-- CREATE TABLE users (
+--   id UUID PRIMARY KEY,
+--   email VARCHAR(255) NOT NULL UNIQUE,
+--   password VARCHAR(255) NOT NULL,
+--   isActive BOOLEAN NOT NULL DEFAULT TRUE
+-- );
 
 CREATE TABLE vehicles (
   id UUID PRIMARY KEY,

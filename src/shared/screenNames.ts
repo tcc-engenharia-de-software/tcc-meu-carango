@@ -9,6 +9,9 @@ export const SCREEN_NAMES = {
   ResetPassword: "ResetPassword",
   vehicle: "Vehicle",
   vehicleDetail: "vehicleDetail",
+  fuel: {
+    register: "FuelRegister",
+  },
 };
 
 export type RootStackParamList = {
@@ -20,9 +23,12 @@ export type RootStackParamList = {
   ForgotPassword: undefined;
   ResetPassword: undefined;
   Vehicle: {
-    navigation: NativeStackNavigationProp<RootStackParamList, "Home">;
+    navigation: NativeStackNavigationProp<RootStackParamList, "Vehicle">;
   };
   VehicleDetail: {
-    navigation: NativeStackNavigationProp<RootStackParamList, "Home">;
+    navigation: NativeStackNavigationProp<RootStackParamList, "VehicleDetail">;
+  };
+  FuelSupply: {
+    navigation: NativeStackNavigationProp<RootStackParamList, "FuelSupply">;
   };
 };

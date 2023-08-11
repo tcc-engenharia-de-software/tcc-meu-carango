@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
@@ -7,16 +7,23 @@ import {
   SignUpController,
   VehicleController,
   VehicleDetailController,
+  FuelRegisterController,
 } from "src/modules";
 
 import { SCREEN_NAMES } from "./shared";
 
 const Stack = createNativeStackNavigator();
 
+const overrideNavigationTheme = {
+  colors: { ...DefaultTheme.colors, background: "#fff" },
+  dark: DefaultTheme.dark,
+};
+
 const hideHeader = { headerShown: false };
 export const EntryPoint = () => (
-  <NavigationContainer>
-    <Stack.Navigator initialRouteName={SCREEN_NAMES.Home}>
+  <NavigationContainer theme={overrideNavigationTheme}>
+    {/* <Stack.Navigator initialRouteName={SCREEN_NAMES.Home}> */}
+    <Stack.Navigator initialRouteName={SCREEN_NAMES.fuel.register}>
       <Stack.Screen
         name={SCREEN_NAMES.Login}
         component={LoginController}
@@ -42,6 +49,11 @@ export const EntryPoint = () => (
       <Stack.Screen
         name={SCREEN_NAMES.vehicleDetail}
         component={VehicleDetailController}
+        options={hideHeader}
+      />
+      <Stack.Screen
+        name={SCREEN_NAMES.fuel.register}
+        component={FuelRegisterController}
         options={hideHeader}
       />
     </Stack.Navigator>
