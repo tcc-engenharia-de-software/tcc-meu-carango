@@ -7,6 +7,7 @@ import { useAuth } from "../../hooks";
 
 import { loginFormSchema } from "./loginFormSchema";
 import type { LoginFormData } from "./types";
+import { useEffect } from "react";
 
 const initialFormValues: LoginFormData = {
   email: "",
@@ -25,6 +26,15 @@ export const useLoginModel = ({ navigation }: RootStackParamList["Home"]) => {
   });
 
   const authentication = useAuth();
+
+  useEffect(
+    function redirectToHomeIfLogged() {
+      if (authentication.isLoggedIn) {
+        navigation.navigate(SCREEN_NAMES.Home as never);
+      }
+    },
+    [authentication.isLoggedIn, navigation]
+  );
 
   const emailError = formState.errors.email?.message;
   const passwordError = formState.errors.password?.message;
