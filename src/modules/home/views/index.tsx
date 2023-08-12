@@ -1,5 +1,12 @@
 import React, { FC, useMemo } from "react";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Row, Rows, Table } from "react-native-table-component";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -37,46 +44,48 @@ export const HomeView: FC<HomeViewProps> = ({
   }, [recentExpenses]);
 
   return (
-    <View className={styles.home.container}>
-      <Header title="Meu carango" description="Veículos" />
-      <View className="text-xl mt-10">
-        <TouchableOpacity
-          className="border rounded-full p-2 w-20 border-gray-300 drop-shadow-xl"
-          onPress={handleNewVehicle}>
-          <Icon name="plus" color="#717171" size={60} />
-        </TouchableOpacity>
-      </View>
-      <FlatList
-        data={vehicleData}
-        renderItem={({ item }: any) => (
-          <CardVehicle
-            clickCard={redirectToVehicleDetail(item)}
-            idVehicle={item.id}
-            initial_kilometer={item.initial_kilometer}
-            name={item.model}
-            plate={item.plate}
+    <SafeAreaView className={styles.home.container}>
+      <ScrollView>
+        <Header title="Meu carango" description="Veículos" />
+        <View className="text-xl mt-10">
+          <TouchableOpacity
+            className="border rounded-full p-2 w-20 border-gray-300 drop-shadow-xl"
+            onPress={handleNewVehicle}>
+            <Icon name="plus" color="#717171" size={60} />
+          </TouchableOpacity>
+        </View>
+        <FlatList
+          data={vehicleData}
+          renderItem={({ item }: any) => (
+            <CardVehicle
+              clickCard={redirectToVehicleDetail(item)}
+              idVehicle={item.id}
+              initial_kilometer={item.initial_kilometer}
+              name={item.model}
+              plate={item.plate}
+            />
+          )}
+          keyExtractor={(item: VehicleEntityHome) => item.id}
+          showsHorizontalScrollIndicator={false}
+          horizontal
+        />
+
+        <Text className={styles.home.recentExpenses.title}>
+          Despesas recentes
+        </Text>
+
+        <Table style={styles.home.recentExpenses.table.self}>
+          <Row
+            style={styles.home.recentExpenses.table.header}
+            data={["Placa", "Tipo de gasto", "Data", "valor"]}
           />
-        )}
-        keyExtractor={(item: VehicleEntityHome) => item.id}
-        showsHorizontalScrollIndicator={false}
-        horizontal
-      />
-
-      <Text className={styles.home.recentExpenses.title}>
-        Despesas recentes
-      </Text>
-
-      <Table style={styles.home.recentExpenses.table.self}>
-        <Row
-          style={styles.home.recentExpenses.table.header}
-          data={["Placa", "Tipo de gasto", "Data", "valor"]}
-        />
-        <Rows
-          style={styles.home.recentExpenses.table.rows.self}
-          textStyle={styles.home.recentExpenses.table.rows.textStyle}
-          data={currentBills}
-        />
-      </Table>
-    </View>
+          <Rows
+            style={styles.home.recentExpenses.table.rows.self}
+            textStyle={styles.home.recentExpenses.table.rows.textStyle}
+            data={currentBills}
+          />
+        </Table>
+      </ScrollView>
+    </SafeAreaView>
   );
 };

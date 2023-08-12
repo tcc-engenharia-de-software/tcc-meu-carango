@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 import { VehicleEntityHome } from "src/modules/home/model/types";
+import { Alert } from "react-native";
 
 export const useVehicleDetailModel = ({
   navigation,
@@ -39,19 +40,19 @@ export const useVehicleDetailModel = ({
       id: 2,
       title: "Manutenção",
       description: "Adicionar um manutenção feita",
-      action: () => {},
+      action: () => Alert.alert("Não implementado ainda", "Em breve..."),
     },
     {
       id: 3,
       title: "Multa",
       description: "Adicionar uma nova multa paga",
-      action: () => {},
+      action: () => Alert.alert("Não implementado ainda", "Em breve..."),
     },
     {
       id: 4,
       title: "Seguro",
       description: "Adicionar valor pago do seguro",
-      action: () => {},
+      action: () => Alert.alert("Não implementado ainda", "Em breve..."),
     },
   ];
 

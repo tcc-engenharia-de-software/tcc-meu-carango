@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Alert } from "react-native";
 
 import { RootStackParamList, SCREEN_NAMES } from "src/shared";
@@ -26,35 +26,34 @@ export const useHomeModel = ({ navigation }: RootStackParamList["Home"]) => {
     navigation.navigate(SCREEN_NAMES.vehicleDetail as never);
   };
 
-  useEffect(() => {
-    const loadData = async () => {
-      const { data, error } = await supabase
-        .from("vehicles")
-        .select("*")
-        .eq("user_id", user?.id);
+  const loadData = useCallback(async () => {
+    const { data, error } = await supabase
+      .from("vehicles")
+      .select("*")
+      .eq("user_id", user?.id);
 
-      if (error) {
-        Alert.alert("Erro ao carregar veículos, verifique sua conexão.");
-      }
+    if (error) {
+      Alert.alert("Erro ao carregar veículos, verifique sua conexão.");
+    }
 
-      if (!data) return;
-      setIsLoading(false);
-      setVehicleData(data as any);
-    };
+    if (!data) return;
+    setIsLoading(false);
+    setVehicleData(data as any);
 
-    loadData();
+    const vehiclesId = data.map(({ id }) => id);
+
+    if (!vehiclesId.length) return;
+    const expenses = await retrieveRecenteExpense(vehiclesId);
+    setRecentExpenses(expenses);
   }, [user?.id]);
 
-  useEffect(
-    function getExpense() {
-      const vehiclesId = vehicleData.map(({ id }) => id);
+  useEffect(() => {
+    navigation.addListener("focus", loadData);
 
-      if (!vehiclesId.length) return;
-
-      retrieveRecenteExpense(vehiclesId).then(setRecentExpenses);
-    },
-    [vehicleData]
-  );
+    return () => {
+      navigation.removeListener("focus", () => {});
+    };
+  }, [loadData, navigation]);
 
   return {
     redirectToVehicleForm,
