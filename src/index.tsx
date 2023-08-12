@@ -7,6 +7,7 @@ import {
   VehicleController,
   VehicleDetailController,
 } from "src/modules";
+
 import { SCREEN_NAMES } from "./shared";
 import { TopBar } from "./components/TopBar";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -42,7 +43,6 @@ export const EntryPoint = () => {
 
         {isLoggedIn ? (
           <>
-            <TopBar />
             <Stack.Screen
               name={SCREEN_NAMES.Home}
               component={HomeController}
