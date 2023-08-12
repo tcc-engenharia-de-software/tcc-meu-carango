@@ -65,7 +65,7 @@ export const HomeView: FC<HomeViewProps> = ({
         Despesas recentes
       </Text>
 
-      <Table style={styles.home.recentExpenses.table.container}>
+      <Table style={styles.home.recentExpenses.table.self}>
         <Row
           style={styles.home.recentExpenses.table.header}
           data={["Placa", "Tipo de gasto", "Data", "valor"]}

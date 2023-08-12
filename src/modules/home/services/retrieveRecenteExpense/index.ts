@@ -2,9 +2,15 @@ import { configurations } from "./../../../../shared";
 import { expenseQuery } from "./queries";
 import { ExpenseNormalized, ExpenseResponse } from "./types";
 
+const isDisabled = true;
+
 export const retrieveRecenteExpense = async (
   vehiclesIds: string[]
 ): Promise<ExpenseNormalized[]> => {
+  if (isDisabled) {
+    return [];
+  }
+
   return fetch(configurations.SUPABASE_URL + "/graphql/v1", {
     method: "POST",
     headers: {

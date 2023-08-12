@@ -1,18 +1,18 @@
 export const styles = {
   home: {
-    container: "ml-8 mr-8",
+    container: "px-8",
     recentExpenses: {
       title: "text-[24px] mt-6 text-gray-400",
       table: {
-        container: { marginTop: 16 },
+        self: { marginTop: 16 },
         header: {
-          backgroundColor: "#fff",
+          backgroundColor: "#F5F5F5",
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
           padding: 8,
         },
         rows: {
-          self: { backgroundColor: "#F5F5F5" },
+          self: { backgroundColor: "#fff" },
           textStyle: { padding: 8 },
         },
       },
