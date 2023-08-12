@@ -19,11 +19,14 @@ export const vehicleFormSchema = z.object({
     .transform((value) => value.trim()),
   plate: z
     .string()
-    .regex(/^[A-Z]{3}\d{4}$|^[A-Z]{3}\d[A-Z]\d{2}$/i)
+    .regex(
+      /^[A-Z]{3}\d{4}$|^[A-Z]{3}\d[A-Z]\d{2}$/i,
+      "Exemplo de placa: ODE6A31 ou ODE1231"
+    )
     .max(MAX_LENGTH_PLATE)
     .transform((value) => value.toUpperCase().trim()),
-  fuelType: z.array(z.string().transform((value) => value.trim())),
-  initialKilometer: z
+  fuel_type: z.string().transform((value) => value.trim()),
+  initial_kilometer: z
     .string()
     .min(MIN_INITIAL_KILOMETER)
     .transform((value) => value.trim()),

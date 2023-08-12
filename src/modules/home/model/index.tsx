@@ -1,13 +1,19 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
+import { Alert } from "react-native";
 
 import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 import { supabase } from "../../../services";
 
+import { useAuth } from "src/modules/auth";
 import { retrieveRecenteExpense } from "../services/retrieveRecenteExpense";
 import { ExpenseNormalized } from "../services/retrieveRecenteExpense/types";
+import { VehicleEntityHome } from "./types";
 
 export const useHomeModel = ({ navigation }: RootStackParamList["Home"]) => {
-  const [vehicleData, setVehicleData] = useState([]);
+  const { user } = useAuth();
+
+  const [vehicleData, setVehicleData] = useState<VehicleEntityHome[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [recentExpenses, setRecentExpenses] = useState<ExpenseNormalized[]>([]);
 
@@ -15,14 +21,21 @@ export const useHomeModel = ({ navigation }: RootStackParamList["Home"]) => {
     navigation.navigate(SCREEN_NAMES.vehicle as never);
   };
 
-  const redirectToVehicleDetail = () =>
+  const redirectToVehicleDetail = (vehicleData: VehicleEntityHome) => () => {
+    AsyncStorage.setItem("selectedVehicle", JSON.stringify(vehicleData));
     navigation.navigate(SCREEN_NAMES.vehicleDetail as never);
+  };
 
   useEffect(() => {
     const loadData = async () => {
-      const { data } = await supabase
-        .from("vehicle")
-        .select("id, plate, model, initialKilometer");
+      const { data, error } = await supabase
+        .from("vehicles")
+        .select("*")
+        .eq("user_id", user?.id);
+
+      if (error) {
+        Alert.alert("Erro ao carregar veículos, verifique sua conexão.");
+      }
 
       if (!data) return;
       setIsLoading(false);
@@ -30,12 +43,18 @@ export const useHomeModel = ({ navigation }: RootStackParamList["Home"]) => {
     };
 
     loadData();
-  }, []);
-  useEffect(function getExpense() {
-    // ! TODO: should implement how to get vehicle ids
-    const fakeIDs: string[] = [];
-    retrieveRecenteExpense(fakeIDs).then(setRecentExpenses);
-  }, []);
+  }, [user?.id]);
+
+  useEffect(
+    function getExpense() {
+      const vehiclesId = vehicleData.map(({ id }) => id);
+
+      if (!vehiclesId.length) return;
+
+      retrieveRecenteExpense(vehiclesId).then(setRecentExpenses);
+    },
+    [vehicleData]
+  );
 
   return {
     redirectToVehicleForm,

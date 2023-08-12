@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert } from "react-native";
@@ -11,12 +12,12 @@ import { FuelFieldsKeys, FuelRegisterFormData } from "./types";
 import { caster } from "./utils";
 
 const initialFormValues: FuelRegisterFormData = {
-  current_kilometer: 0,
+  current_kilometer: "" as unknown as number,
   date_time: new Date(),
   fuel_type: "Gasolina",
-  liters: 0,
+  liters: "" as unknown as number,
   payment_method: "Dinheiro",
-  price_per_liter: 100,
+  price_per_liter: "" as unknown as number,
   vehicle_id: "",
   additional_data: "",
 };
@@ -71,6 +72,12 @@ export const useFuelRegisterModel = ({
   const onSubmit = handleSubmit(async (data: FuelRegisterFormData) => {
     if (isLoading || isButtonSubmitDisabled) return;
 
+    const vehicleId = await AsyncStorage.getItem("selectedVehicle")
+      .then((r) => JSON.parse(r as string))
+      .then((v) => {
+        return v.id;
+      });
+
     const castedData = Object.entries(data).reduce(
       (acc, [key, value]) => ({
         ...acc,
@@ -79,12 +86,15 @@ export const useFuelRegisterModel = ({
       {}
     );
 
-    const { error } = await supabase.from("fuel_supply").insert(castedData);
+    const { error } = await supabase.from("fuel_supply").insert({
+      ...castedData,
+      vehicle_id: vehicleId,
+    });
 
     if (error) {
       Alert.alert(
         "Ops! Ocorreu um erro ao cadastrar o abastecimento.",
-        "Verifique seus dados e tente novamente! " + error.message
+        "Verifique seus dados e tente novamente! "
       );
       return;
     }

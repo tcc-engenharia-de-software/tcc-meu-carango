@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Alert } from "react-native";
-import { RootStackParamList } from "src/shared";
+
+import { useAuth } from "src/modules/auth";
+import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 import { supabase } from "../../../services";
 import type { vehicleFormData } from "./types";
 import { vehicleFormSchema } from "./vehicleFormSchema";
@@ -17,8 +19,8 @@ type ManufacturerItem = {
 const initialFormValues: vehicleFormData = {
   color: "",
   deleted: false,
-  fuelType: [""],
-  initialKilometer: "",
+  fuel_type: "",
+  initial_kilometer: "",
   manufacturer: "",
   model: "",
   plate: "",
@@ -39,6 +41,8 @@ export const useVehicleModel = ({
     resolver: zodResolver(vehicleFormSchema),
   });
 
+  const { user } = useAuth();
+
   const [manufacturerItems, setManufacturerItems] = useState<
     ManufacturerItem[]
   >([]);
@@ -46,8 +50,8 @@ export const useVehicleModel = ({
   const isButtonSubmitDisabled = !formState.isValid || formState.isSubmitting;
   const isLoading = formState.isSubmitting;
   const plateError = formState.errors.plate?.message;
-  const fuelTypeError = formState.errors.fuelType?.message;
-  const initialKilometerError = formState.errors.initialKilometer?.message;
+  const fuel_typeError = formState.errors.fuel_type?.message;
+  const initialKilometerError = formState.errors.initial_kilometer?.message;
   const modelError = formState.errors.model?.message;
   const manufacturerError = formState.errors.manufacturer?.message;
   const yearError = formState.errors.year?.message;
@@ -56,7 +60,10 @@ export const useVehicleModel = ({
   const onSubmit = handleSubmit(async (data: vehicleFormData) => {
     if (isLoading || isButtonSubmitDisabled) return;
 
-    const result = await supabase.from("vehicle").insert([data]);
+    const result = await supabase.from("vehicles").insert({
+      ...data,
+      user_id: user?.id,
+    });
 
     if (result.error) {
       return Alert.alert(
@@ -66,6 +73,7 @@ export const useVehicleModel = ({
     }
 
     reset(initialFormValues);
+    navigation.navigate(SCREEN_NAMES.Home as never);
   });
 
   const handleInputChange = (cb: (text: string) => void) => {
@@ -93,7 +101,7 @@ export const useVehicleModel = ({
     onSubmit,
     handleInputChange,
     plateError,
-    fuelTypeError,
+    fuel_typeError,
     initialKilometerError,
     modelError,
     manufacturerError,
