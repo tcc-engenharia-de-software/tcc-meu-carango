@@ -8,6 +8,7 @@ import { Header } from "src/components/Header";
 
 import { styles } from "./styles";
 import { HomeViewProps } from "./types";
+import { VehicleEntityHome } from "../model/types";
 
 const LENGTH_OF_VOID_ARRAY = 0;
 const FRACTIONAL_DIGITS_TO_MONEY = 2;
@@ -49,14 +50,14 @@ export const HomeView: FC<HomeViewProps> = ({
         data={vehicleData}
         renderItem={({ item }: any) => (
           <CardVehicle
-            clickCard={redirectToVehicleDetail}
+            clickCard={redirectToVehicleDetail(item)}
             idVehicle={item.id}
             initial_kilometer={item.initial_kilometer}
             name={item.model}
             plate={item.plate}
           />
         )}
-        keyExtractor={(item: any) => item.id}
+        keyExtractor={(item: VehicleEntityHome) => item.id}
         showsHorizontalScrollIndicator={false}
         horizontal
       />

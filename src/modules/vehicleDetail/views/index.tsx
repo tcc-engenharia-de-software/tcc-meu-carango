@@ -1,37 +1,17 @@
-import { Text, View, ScrollView, FlatList } from "react-native";
+import { Text, View, FlatList, SafeAreaView } from "react-native";
 
 import { FC } from "react";
 import { UseVehicleDetailModel } from "../models/types";
 import { ExpenseCard } from "../../../components/ExpenseCard";
 import { styles } from "./styles";
 
-export const VehicleDetailView: FC<UseVehicleDetailModel> = () => {
-  const expenseCards = [
-    {
-      id: 1,
-      title: "Abastecimento",
-      description: "Adicionar um novo abastecimento",
-    },
-    {
-      id: 2,
-      title: "Manutenção",
-      description: "Adicionar um manutenção feita",
-    },
-    {
-      id: 3,
-      title: "Multa",
-      description: "Adicionar uma nova multa paga",
-    },
-    {
-      id: 4,
-      title: "Seguro",
-      description: "Adicionar valor pago do seguro",
-    },
-  ];
-
+export const VehicleDetailView: FC<UseVehicleDetailModel> = ({
+  vehicle,
+  expenseCards,
+}) => {
   return (
-    <ScrollView className="mx-4">
-      <Text className={styles.vehicle.name}>data.name</Text>
+    <SafeAreaView className="mx-4 mb-4 flex flex-1">
+      <Text className={styles.vehicle.name}>{vehicle?.model}</Text>
       <Text className={styles.vehicle.info.title}>Informações</Text>
       <View>
         <Text className={styles.vehicle.info.key}>
@@ -48,20 +28,18 @@ export const VehicleDetailView: FC<UseVehicleDetailModel> = () => {
           Registro de despesas
         </Text>
       </View>
-      <View className="">
-        <FlatList
-          className="mx-0 px-0"
-          data={expenseCards}
-          numColumns={1}
-          renderItem={({ item }) => (
-            <ExpenseCard
-              title={item.title}
-              description={item.description}
-              action={() => {}}
-            />
-          )}
-        />
-      </View>
-    </ScrollView>
+      <FlatList
+        className="mx-0 px-0"
+        data={expenseCards}
+        numColumns={1}
+        renderItem={({ item }) => (
+          <ExpenseCard
+            title={item.title}
+            description={item.description}
+            action={item.action}
+          />
+        )}
+      />
+    </SafeAreaView>
   );
 };

@@ -1,17 +1,19 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
+import { Alert } from "react-native";
 
 import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 import { supabase } from "../../../services";
 
+import { useAuth } from "src/modules/auth";
 import { retrieveRecenteExpense } from "../services/retrieveRecenteExpense";
 import { ExpenseNormalized } from "../services/retrieveRecenteExpense/types";
-import { useAuth } from "src/modules/auth";
-import { Alert } from "react-native";
+import { VehicleEntityHome } from "./types";
 
 export const useHomeModel = ({ navigation }: RootStackParamList["Home"]) => {
   const { user } = useAuth();
 
-  const [vehicleData, setVehicleData] = useState([]);
+  const [vehicleData, setVehicleData] = useState<VehicleEntityHome[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [recentExpenses, setRecentExpenses] = useState<ExpenseNormalized[]>([]);
 
@@ -19,14 +21,16 @@ export const useHomeModel = ({ navigation }: RootStackParamList["Home"]) => {
     navigation.navigate(SCREEN_NAMES.vehicle as never);
   };
 
-  const redirectToVehicleDetail = () =>
+  const redirectToVehicleDetail = (vehicleData: VehicleEntityHome) => () => {
+    AsyncStorage.setItem("selectedVehicle", JSON.stringify(vehicleData));
     navigation.navigate(SCREEN_NAMES.vehicleDetail as never);
+  };
 
   useEffect(() => {
     const loadData = async () => {
       const { data, error } = await supabase
         .from("vehicles")
-        .select("id, plate, model, initial_kilometer")
+        .select("*")
         .eq("user_id", user?.id);
 
       if (error) {

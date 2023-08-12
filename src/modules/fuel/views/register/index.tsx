@@ -51,7 +51,7 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
                   }
                   placeholder="Data e hora"
                   testID="date-time-input"
-                  value={value as unknown as string}
+                  value={String(value)}
                   editable={false}
                 />
               </Pressable>
@@ -97,7 +97,7 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
               testID="current-kilometer-input"
               onBlur={onBlur}
               onChangeText={(text) => handlers.change(name, text, onChange)}
-              value={value as unknown as string}
+              value={String(value)}
               keyboardType="numeric"
             />
           )}
@@ -146,7 +146,7 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
               testID="total-liters-input"
               onBlur={onBlur}
               onChangeText={(text) => handlers.change(name, text, onChange)}
-              value={value as unknown as string}
+              value={String(value)}
               keyboardType="decimal-pad"
               maxLength={8}
             />
@@ -173,7 +173,7 @@ export const FuelRegisterView: FC<UseFuelRegisterModel> = ({
               testID="price-per-liters-input"
               onBlur={onBlur}
               onChangeText={(text) => handlers.change(name, text, onChange)}
-              value={value as unknown as string}
+              value={String(value)}
               keyboardType="decimal-pad"
             />
           )}
