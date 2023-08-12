@@ -1,14 +1,31 @@
-import React from "react";
-import { Text, View, TouchableOpacity } from "react-native";
-import { styles } from "./styles";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 
-export const Menu = ({ isOpen }: { isOpen: boolean }) => {
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import React from "react";
+import { styles } from "./styles";
+import { useAuth } from "src/modules/auth/hooks";
+
+type MenuProps = {
+  isOpen: boolean;
+  handleOpenMenu: () => void;
+};
+
+export const Menu = ({ isOpen, handleOpenMenu }: MenuProps) => {
+  const authentication = useAuth();
   if (!isOpen) {
     return null;
   }
 
   const handleOpenOptions = () => {};
+
+  const handleSignOut = async () => {
+    try {
+      await authentication.signOut();
+      handleOpenMenu();
+    } catch {
+      Alert.alert("Ops...Aconteceu um erro", "Tente novamente mais tarde");
+    }
+  };
 
   return (
     <View className={styles.container}>
@@ -22,7 +39,9 @@ export const Menu = ({ isOpen }: { isOpen: boolean }) => {
             <Icon name="chevron-down" color="#717171" size={20} />
           </TouchableOpacity>
         </View>
-        <Text className={styles.options}>Sair</Text>
+        <TouchableOpacity onPress={handleSignOut}>
+          <Text className={styles.options}>Sair</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

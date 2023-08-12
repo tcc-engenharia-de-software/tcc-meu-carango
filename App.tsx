@@ -1,10 +1,10 @@
 import Constants from "expo-constants";
 import { NativeWindStyleSheet } from "nativewind";
 import { SafeAreaView } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
 import { EntryPoint } from "./src";
 import { AuthProvider } from "src/modules";
-import { StatusBar } from "expo-status-bar";
 
 NativeWindStyleSheet.setOutput({ default: "native" });
 

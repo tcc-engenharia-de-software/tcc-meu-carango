@@ -1,9 +1,10 @@
-import React from "react";
 import { TouchableOpacity, View } from "react-native";
+
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { Menu } from "../Menu";
+import React from "react";
 import { styles } from "./styles";
 import { useIsOpenMenu } from "./../../hooks/use-is-open-menu";
-import { Menu } from "../Menu";
 
 export const TopBar: React.FC = () => {
   const { setIsOpen, isOpen } = useIsOpenMenu();
@@ -28,7 +29,7 @@ export const TopBar: React.FC = () => {
         </TouchableOpacity>
       </View>
       <View>
-        <Menu isOpen={isOpen} />
+        <Menu isOpen={isOpen} handleOpenMenu={handleOpenMenu} />
       </View>
     </View>
   );
