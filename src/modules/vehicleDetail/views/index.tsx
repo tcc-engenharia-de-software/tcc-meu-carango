@@ -15,13 +15,13 @@ export const VehicleDetailView: FC<UseVehicleDetailModel> = ({
       <Text className={styles.vehicle.info.title}>Informações</Text>
       <View>
         <Text className={styles.vehicle.info.key}>
-          Média de consumo do veiculo:
+          Média de consumo do veiculo: N/A
         </Text>
         <Text className={styles.vehicle.info.key}>
-          Despesas dos últimos 30 dias:
+          Despesas dos últimos 30 dias: N/A
         </Text>
-        <Text className={styles.vehicle.info.key}>Próxima manutenção:</Text>
-        <Text className={styles.vehicle.info.key}>Próxima manutenção:</Text>
+        <Text className={styles.vehicle.info.key}>Próxima manutenção: N/A</Text>
+        <Text className={styles.vehicle.info.key}>Próxima manutenção: N/A</Text>
       </View>
       <View>
         <Text className={styles.vehicle.despesas.title}>
