@@ -103,6 +103,7 @@ export const VehicleView: FC<UseVehicleModel> = ({
               onBlur={onBlur}
               onChangeText={handleInputChange(onChange)}
               maxLength={7}
+              value={value.toUpperCase()}
             />
           )}
           name="plate"
