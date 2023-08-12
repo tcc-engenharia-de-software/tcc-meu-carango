@@ -1,4 +1,3 @@
-import React, { FC, useMemo } from "react";
 import {
   FlatList,
   SafeAreaView,
@@ -7,15 +6,16 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import React, { FC, useMemo } from "react";
 import { Row, Rows, Table } from "react-native-table-component";
 
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { CardVehicle } from "src/components/CardVehicle";
 import { Header } from "src/components/Header";
-
-import { styles } from "./styles";
 import { HomeViewProps } from "./types";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { VehicleEntityHome } from "../model/types";
+import { format } from "date-fns";
+import { styles } from "./styles";
 
 const LENGTH_OF_VOID_ARRAY = 0;
 const FRACTIONAL_DIGITS_TO_MONEY = 2;
@@ -33,9 +33,9 @@ export const HomeView: FC<HomeViewProps> = ({
   const currentBills = useMemo(() => {
     if (recentExpenses.length > LENGTH_OF_VOID_ARRAY) {
       return recentExpenses.map((expense) => [
-        expense.plate,
+        expense.plate.toLocaleUpperCase(),
         expense.type,
-        expense.date,
+        format(new Date(expense.date), "dd/MM/yy"),
         `R$ ${expense.value.toFixed(FRACTIONAL_DIGITS_TO_MONEY)}`,
       ]);
     }
@@ -45,7 +45,7 @@ export const HomeView: FC<HomeViewProps> = ({
 
   return (
     <SafeAreaView className={styles.home.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Header title="Meu carango" description="Veículos" />
         <View className="text-xl mt-10">
           <TouchableOpacity
