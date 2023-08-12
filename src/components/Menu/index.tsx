@@ -39,7 +39,7 @@ export const Menu = ({ isOpen, handleOpenMenu }: MenuProps) => {
             <Icon name="chevron-down" color="#717171" size={20} />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={handleSignOut}>
+        <TouchableOpacity onPress={() => handleSignOut}>
           <Text className={styles.options}>Sair</Text>
         </TouchableOpacity>
       </View>
