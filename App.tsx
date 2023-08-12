@@ -3,15 +3,14 @@ import { NativeWindStyleSheet } from "nativewind";
 import { SafeAreaView } from "react-native";
 
 import { EntryPoint } from "./src";
-import { TopBar } from "src/components/TopBar";
+import { AuthProvider } from "src/modules";
 
 NativeWindStyleSheet.setOutput({ default: "native" });
 
-export default () => {
-  return (
-    <SafeAreaView style={{ flex: 1, marginTop: Constants.statusBarHeight }}>
-      <TopBar />
+export default () => (
+  <SafeAreaView style={{ flex: 1, marginTop: Constants.statusBarHeight }}>
+    <AuthProvider>
       <EntryPoint />
-    </SafeAreaView>
-  );
-};
+    </AuthProvider>
+  </SafeAreaView>
+);
