@@ -7,9 +7,11 @@ import { TopBar } from "src/components/TopBar";
 
 NativeWindStyleSheet.setOutput({ default: "native" });
 
-export default () => (
-  <SafeAreaView style={{ flex: 1, marginTop: Constants.statusBarHeight }}>
-    <TopBar title="te" description="fwef" />
-    <EntryPoint />
-  </SafeAreaView>
-);
+export default () => {
+  return (
+    <SafeAreaView style={{ flex: 1, marginTop: Constants.statusBarHeight }}>
+      <TopBar />
+      <EntryPoint />
+    </SafeAreaView>
+  );
+};

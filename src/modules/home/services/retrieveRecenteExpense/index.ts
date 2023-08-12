@@ -1,4 +1,4 @@
-import { configurations } from "~/shared";
+import { configurations } from "./../../../../shared";
 import { expenseQuery } from "./queries";
 import { ExpenseNormalized, ExpenseResponse } from "./types";
 
