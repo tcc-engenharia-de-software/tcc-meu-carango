@@ -29,19 +29,21 @@ export const EntryPoint = () => {
   return (
     <NavigationContainer theme={overrideNavigationTheme}>
       <Stack.Navigator initialRouteName={SCREEN_NAMES.Home}>
-        <Stack.Screen
-          name={SCREEN_NAMES.Login}
-          component={LoginController}
-          options={hideHeader}
-        />
+        {!isLoggedIn ? (
+          <>
+            <Stack.Screen
+              name={SCREEN_NAMES.Login}
+              component={LoginController}
+              options={hideHeader}
+            />
 
-        <Stack.Screen
-          name={SCREEN_NAMES.SignUp}
-          component={SignUpController}
-          options={hideHeader}
-        />
-
-        {isLoggedIn ? (
+            <Stack.Screen
+              name={SCREEN_NAMES.SignUp}
+              component={SignUpController}
+              options={hideHeader}
+            />
+          </>
+        ) : (
           <>
             <Stack.Screen
               name={SCREEN_NAMES.Home}
@@ -65,7 +67,7 @@ export const EntryPoint = () => {
               options={customHeader}
             />
           </>
-        ) : null}
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
