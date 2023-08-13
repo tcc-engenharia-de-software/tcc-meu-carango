@@ -1,5 +1,5 @@
 export const styles = {
-  container: "bg-white flex flex-1 px-4 mx-3",
+  container: "bg-white flex flex-1 px-4 pb-4 mx-3",
   title: "text-6xl mb-8",
   form: {
     inputPicker: "mb-4 mt-3 border-2",

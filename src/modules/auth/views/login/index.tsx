@@ -13,6 +13,7 @@ export const LoginView: FC<UseLoginModel> = ({
   emailError,
   passwordError,
   handleInputChange,
+  redirectToRegister,
 }) => {
   const buttonSubmitStyle = [
     styles.form.submitButton,
@@ -80,6 +81,15 @@ export const LoginView: FC<UseLoginModel> = ({
         disabled={isButtonSubmitDisabled}>
         <Text className={styles.form.submitButtonText}>
           {isLoading ? "Carregando..." : "Entrar"}
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        className={styles.registerButton.self}
+        onPress={redirectToRegister}
+        testID="go-to-sign-up-button">
+        <Text className={styles.registerButton.text}>
+          Ainda não tem uma conta? Cadastre-se
         </Text>
       </TouchableOpacity>
     </View>

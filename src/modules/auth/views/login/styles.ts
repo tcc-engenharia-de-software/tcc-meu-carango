@@ -11,4 +11,8 @@ export const styles = {
     submitButtonDisabled: "bg-gray-500",
     submitButtonText: "text-xl text-white text-center font-bold",
   },
+  registerButton: {
+    self: "",
+    text: "mt-3 text-xm text-black text-center font-bold text-center underline",
+  },
 };

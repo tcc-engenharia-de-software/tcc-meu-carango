@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
-
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Alert } from "react-native";
 
 import { useAuth } from "src/modules/auth";
-import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 import { supabase } from "../../../services";
 import type { vehicleFormData } from "./types";
 import { vehicleFormSchema } from "./vehicleFormSchema";
+import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 
 type ManufacturerItem = {
   created_at: string;
@@ -46,6 +44,8 @@ export const useVehicleModel = ({
   const [manufacturerItems, setManufacturerItems] = useState<
     ManufacturerItem[]
   >([]);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   const isButtonSubmitDisabled = !formState.isValid || formState.isSubmitting;
   const isLoading = formState.isSubmitting;
@@ -66,14 +66,17 @@ export const useVehicleModel = ({
     });
 
     if (result.error) {
-      return Alert.alert(
-        "Ops...Aconteceu um erro",
-        "Tente novamente mais tarde"
-      );
+      setIsError(true);
+      setIsSuccess(false);
+      // return Alert.alert(
+      //   "Ops...Aconteceu um erro",
+      //   "Tente novamente mais tarde"
+      // );
+      return;
     }
-
+    setIsError(false);
+    setIsSuccess(true);
     reset(initialFormValues);
-    navigation.navigate(SCREEN_NAMES.Home as never);
   });
 
   const handleInputChange = (cb: (text: string) => void) => {
@@ -109,5 +112,14 @@ export const useVehicleModel = ({
     colorError,
     manufacturerItems,
     setValue,
+    isError,
+    retry: () => {
+      setIsError(false);
+      setIsSuccess(false);
+    },
+    isSuccess,
+    successAction: () => {
+      navigation.navigate(SCREEN_NAMES.Home as never);
+    },
   };
 };

@@ -9,6 +9,7 @@ import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 import { schemaPerField } from "./formSchema";
 import { FuelFieldsKeys, FuelRegisterFormData } from "./types";
 
+import { VehicleEntityHome } from "~/modules/home/model/types";
 import { caster } from "./utils";
 
 const initialFormValues: FuelRegisterFormData = {
@@ -73,10 +74,8 @@ export const useFuelRegisterModel = ({
     if (isLoading || isButtonSubmitDisabled) return;
 
     const vehicleId = await AsyncStorage.getItem("selectedVehicle")
-      .then((r) => JSON.parse(r as string))
-      .then((v) => {
-        return v.id;
-      });
+      .then((r) => JSON.parse(r as string) as VehicleEntityHome)
+      .then(({ id }) => id);
 
     const castedData = Object.entries(data).reduce(
       (acc, [key, value]) => ({
