@@ -4,6 +4,8 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import React from "react";
 import { styles } from "./styles";
 import { useAuth } from "src/modules/auth/hooks";
+import { useNavigation } from "@react-navigation/native";
+import { SCREEN_NAMES } from "src/shared";
 
 type MenuProps = {
   isOpen: boolean;
@@ -12,6 +14,8 @@ type MenuProps = {
 
 export const Menu = ({ isOpen, handleOpenMenu }: MenuProps) => {
   const authentication = useAuth();
+  const navigation = useNavigation();
+
   if (!isOpen) {
     return null;
   }
@@ -22,6 +26,7 @@ export const Menu = ({ isOpen, handleOpenMenu }: MenuProps) => {
     try {
       await authentication.signOut();
       handleOpenMenu();
+      navigation.navigate(SCREEN_NAMES.Login as never);
     } catch {
       Alert.alert("Ops...Aconteceu um erro", "Tente novamente mais tarde");
     }
@@ -39,7 +44,7 @@ export const Menu = ({ isOpen, handleOpenMenu }: MenuProps) => {
             <Icon name="chevron-down" color="#717171" size={20} />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={() => handleSignOut}>
+        <TouchableOpacity onPress={handleSignOut}>
           <Text className={styles.options}>Sair</Text>
         </TouchableOpacity>
       </View>
