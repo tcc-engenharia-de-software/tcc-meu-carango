@@ -36,12 +36,13 @@ export const retrieveRecenteExpense = async (
         traffic_ticketsCollection,
       }) => {
         const expenses: ExpenseNormalized[] = [];
+        const CENTS_TO_REAL = 100;
 
         fuel_supplyCollection.edges.forEach(({ node }) => {
           expenses.push({
             id: node.id,
             date: node.date_time,
-            value: node.liters * node.price_per_liter,
+            value: node.liters * (node.price_per_liter / CENTS_TO_REAL),
             type: "combustível",
             plate: node.vehicles.plate,
           });

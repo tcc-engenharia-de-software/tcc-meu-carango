@@ -39,21 +39,32 @@ export const useHomeModel = ({ navigation }: RootStackParamList["Home"]) => {
     if (!data) return;
     setIsLoading(false);
     setVehicleData(data as any);
+  }, [user?.id]);
 
-    const vehiclesId = data.map(({ id }) => id);
+  const loadRecentExpenses = useCallback(async () => {
+    const vehiclesId = vehicleData.map(({ id }) => id);
 
     if (!vehiclesId.length) return;
     const expenses = await retrieveRecenteExpense(vehiclesId);
     setRecentExpenses(expenses);
-  }, [user?.id]);
+  }, [vehicleData]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  useEffect(() => {
+    loadRecentExpenses();
+  }, [loadRecentExpenses]);
 
   useEffect(() => {
     navigation.addListener("focus", loadData);
+    navigation.addListener("focus", loadRecentExpenses);
 
     return () => {
       navigation.removeListener("focus", () => {});
     };
-  }, [loadData, navigation]);
+  }, [loadData, loadRecentExpenses, navigation]);
 
   return {
     redirectToVehicleForm,
