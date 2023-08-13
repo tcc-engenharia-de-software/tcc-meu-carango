@@ -69,7 +69,11 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   }, []);
 
   const signOut = useCallback(async () => {
-    await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      throw new Error("Sign out failed");
+    }
 
     updateAuthState({
       isLoggedIn: false,
