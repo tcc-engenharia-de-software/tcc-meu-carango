@@ -2,10 +2,10 @@ import { Alert, Text, TouchableOpacity, View } from "react-native";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import React from "react";
+import { SCREEN_NAMES } from "src/shared";
 import { styles } from "./styles";
 import { useAuth } from "src/modules/auth/hooks";
 import { useNavigation } from "@react-navigation/native";
-import { SCREEN_NAMES } from "src/shared";
 
 type MenuProps = {
   isOpen: boolean;

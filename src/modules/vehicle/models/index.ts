@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { Alert } from "react-native";
-
-import { useAuth } from "src/modules/auth";
-import { RootStackParamList, SCREEN_NAMES } from "src/shared";
+import { RootStackParamList } from "src/shared";
 import { supabase } from "../../../services";
+import { useAuth } from "src/modules/auth";
+import { useForm } from "react-hook-form";
 import type { vehicleFormData } from "./types";
 import { vehicleFormSchema } from "./vehicleFormSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type ManufacturerItem = {
   created_at: string;
@@ -46,6 +45,7 @@ export const useVehicleModel = ({
   const [manufacturerItems, setManufacturerItems] = useState<
     ManufacturerItem[]
   >([]);
+  const [isError, setIsError] = useState<boolean | null>(null);
 
   const isButtonSubmitDisabled = !formState.isValid || formState.isSubmitting;
   const isLoading = formState.isSubmitting;
@@ -66,14 +66,14 @@ export const useVehicleModel = ({
     });
 
     if (result.error) {
+      setIsError(true);
       return Alert.alert(
         "Ops...Aconteceu um erro",
         "Tente novamente mais tarde"
       );
     }
-
+    setIsError(false);
     reset(initialFormValues);
-    navigation.navigate(SCREEN_NAMES.Home as never);
   });
 
   const handleInputChange = (cb: (text: string) => void) => {
@@ -109,5 +109,6 @@ export const useVehicleModel = ({
     colorError,
     manufacturerItems,
     setValue,
+    isError,
   };
 };

@@ -1,22 +1,19 @@
 import {
+  SafeAreaView,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  SafeAreaView,
 } from "react-native";
 
 import { FC } from "react";
 import { Controller as FormController } from "react-hook-form";
-import { Picker } from "@react-native-picker/picker";
-
 import { Header } from "src/components/Header";
+import { Picker } from "@react-native-picker/picker";
+// import { ResponseInfo } from "src/components/ResponseInfo";
 import { UseVehicleModel } from "../../models/types";
 import { styles } from "./styles";
-import { ResponseInfo } from "src/components/ResponseInfo";
-
-const aa = true;
 
 export const VehicleView: FC<UseVehicleModel> = ({
   onSubmit,
@@ -32,6 +29,7 @@ export const VehicleView: FC<UseVehicleModel> = ({
   colorError,
   manufacturerItems,
   setValue,
+  isError,
 }) => {
   const buttonSubmitStyle = [
     styles.form.submitButton,
@@ -40,23 +38,21 @@ export const VehicleView: FC<UseVehicleModel> = ({
       : styles.form.submitButtonEnabled,
   ].join(" ");
 
-  /**
-   * ! NOTE: PARA O VINI
-   * Exemplo de uso do componente ResponseInfo
-   * deve adicionar nas telas esse if, ele já ocupa a tela inteira
-   * ai deve gerenciar o estado de erro ou sucesso, se tu for continuar
-   */
-  if (aa) {
-    return (
-      <ResponseInfo
-        title="Adicionar veículo"
-        description="veículo adicionado com sucesso!"
-        actionBackHome={() => {}}
-        actionTryAgain={() => {}}
-        error={false}
-      />
-    );
-  }
+  // if (isError != null) {
+  //   return (
+  //     <ResponseInfo
+  //       title="Adicionar veículo"
+  //       description={
+  //         isError
+  //           ? "Não foi possivel cadastrar, tente novamente"
+  //           : "Abastecimento cadastrado com sucesso"
+  //       }
+  //       actionBackHome={() => {}}
+  //       actionTryAgain={() => {}}
+  //       error={isError}
+  //     />
+  //   );
+  // }
 
   return (
     <SafeAreaView className={styles.container}>
@@ -134,6 +130,7 @@ export const VehicleView: FC<UseVehicleModel> = ({
                 onChangeText={handleInputChange(onChange)}
                 maxLength={7}
                 value={value.toUpperCase()}
+                autoCorrect={false}
               />
             )}
             name="plate"
