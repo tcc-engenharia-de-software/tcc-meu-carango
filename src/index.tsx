@@ -1,6 +1,4 @@
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
 import {
   FuelRegisterController,
   HomeController,
@@ -9,8 +7,11 @@ import {
   VehicleController,
   VehicleDetailController,
 } from "src/modules";
-import { useAuth } from "./modules/auth/hooks";
+
 import { SCREEN_NAMES } from "./shared";
+import { TopBar } from "./components/TopBar";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useAuth } from "./modules/auth/hooks";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,8 @@ const overrideNavigationTheme = {
 };
 
 const hideHeader = { headerShown: false };
+const customHeader = { header: TopBar };
+
 export const EntryPoint = () => {
   const { isLoggedIn } = useAuth();
 
@@ -43,23 +46,23 @@ export const EntryPoint = () => {
             <Stack.Screen
               name={SCREEN_NAMES.Home}
               component={HomeController}
-              options={hideHeader}
+              options={customHeader}
             />
 
             <Stack.Screen
               name={SCREEN_NAMES.vehicle}
               component={VehicleController}
-              options={hideHeader}
+              options={customHeader}
             />
             <Stack.Screen
               name={SCREEN_NAMES.vehicleDetail}
               component={VehicleDetailController}
-              options={hideHeader}
+              options={customHeader}
             />
             <Stack.Screen
               name={SCREEN_NAMES.fuel.register}
               component={FuelRegisterController}
-              options={hideHeader}
+              options={customHeader}
             />
           </>
         ) : null}
