@@ -1,13 +1,12 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-
-import { Alert } from "react-native";
-import { RootStackParamList } from "src/shared";
-import { supabase } from "../../../services";
-import { useAuth } from "src/modules/auth";
 import { useForm } from "react-hook-form";
+
+import { useAuth } from "src/modules/auth";
+import { supabase } from "../../../services";
 import type { vehicleFormData } from "./types";
 import { vehicleFormSchema } from "./vehicleFormSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { RootStackParamList, SCREEN_NAMES } from "src/shared";
 
 type ManufacturerItem = {
   created_at: string;
@@ -45,7 +44,8 @@ export const useVehicleModel = ({
   const [manufacturerItems, setManufacturerItems] = useState<
     ManufacturerItem[]
   >([]);
-  const [isError, setIsError] = useState<boolean | null>(null);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   const isButtonSubmitDisabled = !formState.isValid || formState.isSubmitting;
   const isLoading = formState.isSubmitting;
@@ -67,12 +67,15 @@ export const useVehicleModel = ({
 
     if (result.error) {
       setIsError(true);
-      return Alert.alert(
-        "Ops...Aconteceu um erro",
-        "Tente novamente mais tarde"
-      );
+      setIsSuccess(false);
+      // return Alert.alert(
+      //   "Ops...Aconteceu um erro",
+      //   "Tente novamente mais tarde"
+      // );
+      return;
     }
     setIsError(false);
+    setIsSuccess(true);
     reset(initialFormValues);
   });
 
@@ -110,5 +113,13 @@ export const useVehicleModel = ({
     manufacturerItems,
     setValue,
     isError,
+    retry: () => {
+      setIsError(false);
+      setIsSuccess(false);
+    },
+    isSuccess,
+    successAction: () => {
+      navigation.navigate(SCREEN_NAMES.Home as never);
+    },
   };
 };

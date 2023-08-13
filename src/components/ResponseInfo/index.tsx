@@ -7,7 +7,7 @@ import { SCREEN_NAMES } from "src/shared";
 interface ResponseInfoError {
   title: string;
   description: string;
-  actionBackHome: Function;
+  actionBackHome?: Function;
   actionTryAgain: Function;
   error: boolean;
 }

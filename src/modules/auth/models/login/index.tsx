@@ -7,7 +7,7 @@ import { useAuth } from "../../hooks";
 
 import { loginFormSchema } from "./loginFormSchema";
 import type { LoginFormData } from "./types";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 const initialFormValues: LoginFormData = {
   email: "",
@@ -63,6 +63,10 @@ export const useLoginModel = ({ navigation }: RootStackParamList["Home"]) => {
     };
   };
 
+  const redirectToRegister = useCallback(() => {
+    navigation.navigate(SCREEN_NAMES.SignUp as never);
+  }, [navigation]);
+
   return {
     formControl,
     isLoading,
@@ -71,5 +75,6 @@ export const useLoginModel = ({ navigation }: RootStackParamList["Home"]) => {
     passwordError,
     onSubmit,
     handleInputChange,
+    redirectToRegister,
   };
 };

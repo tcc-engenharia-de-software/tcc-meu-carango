@@ -11,7 +11,7 @@ import { FC } from "react";
 import { Controller as FormController } from "react-hook-form";
 import { Header } from "src/components/Header";
 import { Picker } from "@react-native-picker/picker";
-// import { ResponseInfo } from "src/components/ResponseInfo";
+import { ResponseInfo } from "src/components/ResponseInfo";
 import { UseVehicleModel } from "../../models/types";
 import { styles } from "./styles";
 
@@ -30,6 +30,9 @@ export const VehicleView: FC<UseVehicleModel> = ({
   manufacturerItems,
   setValue,
   isError,
+  retry,
+  isSuccess,
+  successAction,
 }) => {
   const buttonSubmitStyle = [
     styles.form.submitButton,
@@ -38,21 +41,21 @@ export const VehicleView: FC<UseVehicleModel> = ({
       : styles.form.submitButtonEnabled,
   ].join(" ");
 
-  // if (isError != null) {
-  //   return (
-  //     <ResponseInfo
-  //       title="Adicionar veículo"
-  //       description={
-  //         isError
-  //           ? "Não foi possivel cadastrar, tente novamente"
-  //           : "Abastecimento cadastrado com sucesso"
-  //       }
-  //       actionBackHome={() => {}}
-  //       actionTryAgain={() => {}}
-  //       error={isError}
-  //     />
-  //   );
-  // }
+  if (isError || isSuccess) {
+    return (
+      <ResponseInfo
+        title="Adicionar veículo"
+        description={
+          isError
+            ? "Não foi possivel cadastrar, tente novamente"
+            : "Abastecimento cadastrado com sucesso"
+        }
+        actionBackHome={successAction}
+        actionTryAgain={retry}
+        error={isError}
+      />
+    );
+  }
 
   return (
     <SafeAreaView className={styles.container}>
